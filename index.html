@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>峡谷人格测评 · 王者荣耀</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#D4AF37;--gold-l:#FFE566;--gold-d:rgba(212,175,55,.22);--gold-g:rgba(212,175,55,.5);
+  --dark:#07070F;--dark2:#0D0D1A;--card:rgba(13,13,26,.88);
+  --txt:#EDE8D8;--mute:#8A8AA8;
+  --J:#FF3B3B;--M:#BB44FF;--C:#3388FF;--G:#FFAA00;--R:#33CC77;
+}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',serif;overflow-x:hidden;min-height:100vh}
+
+/* canvas */
+#bgc{position:fixed;inset:0;z-index:0;pointer-events:none}
+#cfc{position:fixed;inset:0;z-index:200;pointer-events:none;display:none}
+
+/* sections */
+.sec{min-height:100vh;position:relative;z-index:1;display:none;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px}
+.sec.on{display:flex}
+
+/* typography */
+.tag{display:inline-block;padding:4px 18px;border:1px solid var(--gold-d);border-radius:20px;font-size:11px;letter-spacing:5px;color:var(--gold);margin-bottom:18px;text-transform:uppercase}
+.stitle{font-size:clamp(26px,6vw,52px);font-weight:900;background:linear-gradient(135deg,#FFE566 0%,#D4AF37 50%,#FF9900 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;margin-bottom:14px;filter:drop-shadow(0 0 20px rgba(212,175,55,.3))}
+.sdesc{font-size:14px;color:var(--mute);line-height:1.9;max-width:540px;text-align:center}
+
+/* buttons */
+.bg{display:inline-flex;align-items:center;gap:10px;padding:15px 44px;background:linear-gradient(135deg,#D4AF37,#FF9900);color:#000;font-size:17px;font-weight:700;border:none;border-radius:50px;cursor:pointer;position:relative;overflow:hidden;transition:all .3s;box-shadow:0 0 30px rgba(212,175,55,.35);font-family:inherit}
+.bg:hover{transform:translateY(-3px);box-shadow:0 8px 40px rgba(212,175,55,.55)}
+.bg:active{transform:translateY(0)}
+.bo{display:inline-flex;align-items:center;gap:8px;padding:12px 30px;background:transparent;color:var(--gold);font-size:14px;border:1px solid var(--gold-d);border-radius:50px;cursor:pointer;transition:all .3s;font-family:inherit}
+.bo:hover{background:var(--gold-d);border-color:var(--gold)}
+
+/* ornament */
+.orn{display:flex;align-items:center;gap:12px;width:100%;margin:28px 0}
+.orn::before,.orn::after{content:'';flex:1;height:1px}
+.orn::before{background:linear-gradient(90deg,transparent,var(--gold-d))}
+.orn::after{background:linear-gradient(90deg,var(--gold-d),transparent)}
+.orn span{font-size:14px;color:var(--gold);opacity:.5}
+
+/* ─── HERO ─── */
+#s1{background:radial-gradient(ellipse at 50% 40%,rgba(204,34,0,.13) 0%,transparent 65%),radial-gradient(ellipse at 70% 70%,rgba(212,175,55,.07) 0%,transparent 50%);text-align:center;gap:0}
+.hemb{font-size:90px;animation:flt 3.5s ease-in-out infinite;filter:drop-shadow(0 0 30px rgba(212,175,55,.6));margin-bottom:24px;line-height:1}
+.hkic{font-size:11px;letter-spacing:8px;color:var(--gold);margin-bottom:20px;opacity:.75}
+.htit{font-size:clamp(40px,10vw,84px);font-weight:900;background:linear-gradient(135deg,#FFE566 0%,#D4AF37 40%,#FF9900 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.15;margin-bottom:18px;filter:drop-shadow(0 0 40px rgba(212,175,55,.4))}
+.hsub{font-size:15px;color:var(--mute);line-height:1.9;margin-bottom:44px;max-width:420px}
+.hsts{display:flex;gap:48px;justify-content:center;margin-bottom:52px}
+.snum{font-size:30px;font-weight:900;color:var(--gold)}
+.slbl{font-size:12px;color:var(--mute);margin-top:2px;letter-spacing:1px}
+
+/* ─── INTRO ─── */
+#s2{justify-content:flex-start;padding-top:70px;padding-bottom:80px}
+.inner{max-width:1100px;width:100%;margin:0 auto}
+.ih{text-align:center;margin-bottom:50px}
+.lore{background:var(--card);border:1px solid var(--gold-d);border-radius:18px;padding:34px 40px;margin-bottom:60px;line-height:2;font-size:14px;color:var(--mute);backdrop-filter:blur(12px)}
+.lore strong{color:var(--gold)}
+.lore p+p{margin-top:16px}
+.rgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;width:100%;margin-bottom:50px}
+@media(max-width:900px){.rgrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:580px){.rgrid{grid-template-columns:repeat(2,1fr)}}
+.rcd{background:var(--card);border:1px solid transparent;border-radius:16px;padding:26px 18px;transition:all .3s;position:relative;overflow:hidden;backdrop-filter:blur(12px)}
+.rcd::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--rc)}
+.rcd:hover{border-color:var(--rc);transform:translateY(-6px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.rico{font-size:36px;margin-bottom:10px;filter:drop-shadow(0 0 8px var(--rc));display:block}
+.rnm{font-size:18px;font-weight:700;color:var(--rc);margin-bottom:4px}
+.ren{font-size:10px;letter-spacing:3px;color:var(--mute);margin-bottom:10px;text-transform:uppercase}
+.rds{font-size:12px;color:var(--mute);line-height:1.7}
+.rhrs{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.07)}
+.rht{display:inline-block;padding:3px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;font-size:11px;color:var(--mute);margin:2px 2px 0 0}
+
+/* ─── QUIZ ─── */
+#s3{background:radial-gradient(ellipse at 50% 40%,rgba(100,50,200,.08) 0%,transparent 65%)}
+.qwrp{max-width:680px;width:100%}
+.qhd{text-align:center;margin-bottom:36px}
+.qpr{display:flex;align-items:center;gap:14px;margin-bottom:36px}
+.qpt{flex:1;height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.qpf{height:100%;background:linear-gradient(90deg,var(--gold),#FF9900);border-radius:2px;transition:width .5s ease;width:0%}
+.qptx{font-size:12px;color:var(--gold);white-space:nowrap}
+.qcd{background:var(--card);border:1px solid var(--gold-d);border-radius:22px;padding:42px 40px;backdrop-filter:blur(20px);animation:sup .4s ease}
+@media(max-width:500px){.qcd{padding:28px 20px}}
+.qnum{font-size:11px;letter-spacing:4px;color:var(--gold);margin-bottom:18px;text-transform:uppercase}
+.qtxt{font-size:18px;font-weight:700;line-height:1.65;margin-bottom:30px;color:var(--txt)}
+.qops{display:flex;flex-direction:column;gap:10px}
+.qop{display:flex;align-items:flex-start;gap:14px;padding:15px 18px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:12px;cursor:pointer;transition:all .22s;text-align:left;font-size:14px;color:var(--mute);line-height:1.65;width:100%;font-family:inherit}
+.qop:hover{background:rgba(212,175,55,.07);border-color:rgba(212,175,55,.35);color:var(--txt);transform:translateX(4px)}
+.qop:hover .olk{background:var(--gold);color:#000;border-color:var(--gold)}
+.olk{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;min-width:28px;border:1px solid var(--gold-d);border-radius:7px;font-size:12px;font-weight:700;color:var(--gold);transition:all .22s}
+
+/* ─── LOADING ─── */
+#s4{gap:24px;text-align:center}
+.lorb{width:80px;height:80px;border-radius:50%;border:3px solid transparent;border-top-color:var(--gold);border-right-color:var(--gold-l);animation:spn 1s linear infinite;box-shadow:0 0 30px rgba(212,175,55,.4)}
+.ltxt{font-size:14px;letter-spacing:4px;color:var(--gold);animation:pls 1.5s ease-in-out infinite}
+
+/* ─── RESULTS ─── */
+#s5{justify-content:flex-start;padding-top:70px;padding-bottom:80px}
+.rsin{max-width:860px;width:100%;margin:0 auto}
+.rsh{text-align:center;margin-bottom:50px}
+.rvl{font-size:11px;letter-spacing:5px;color:var(--gold);margin-bottom:10px;animation:pls 2s infinite}
+.prcd{border-radius:24px;margin-bottom:28px;animation:cin .7s ease}
+.scd{border-radius:16px;padding:28px 32px;display:flex;align-items:center;gap:22px;margin-bottom:28px;animation:cin .7s ease .25s backwards;width:100%}
+@media(max-width:500px){.scd{flex-direction:column;text-align:center}}
+.dmp{background:var(--card);border:1px solid var(--gold-d);border-radius:16px;padding:28px 32px;backdrop-filter:blur(12px);margin-bottom:28px;animation:cin .7s ease .45s backwards}
+.dmh{font-size:11px;letter-spacing:4px;color:var(--gold);margin-bottom:22px;text-transform:uppercase}
+.dmr{display:flex;align-items:center;gap:14px;margin-bottom:13px}
+.dml{font-size:12px;color:var(--mute);width:170px;flex-shrink:0}
+.dmt{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.dmf{height:100%;border-radius:3px;width:0%;transition:width 1.2s ease .6s}
+.dmp2{font-size:11px;width:32px;text-align:right}
+@media(max-width:500px){.dml{width:100px;font-size:11px}}
+
+/* friend compare */
+.fcmp{background:linear-gradient(135deg,rgba(100,50,200,.2),rgba(212,175,55,.1));border:1px solid var(--gold-d);border-radius:16px;padding:28px 32px;text-align:center;margin-bottom:28px;animation:cin .5s ease;display:none}
+.fcmp.on{display:block}
+.rwp{border-radius:16px;padding:32px;text-align:center;margin-bottom:28px;animation:cin .5s ease;display:none}
+.rwp.on{display:block}
+.ract{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:cin .7s ease .6s backwards}
+
+/* ─── SHARE ─── */
+#s6{background:radial-gradient(ellipse at 50% 40%,rgba(0,80,200,.08) 0%,transparent 65%)}
+.shin{max-width:660px;width:100%;text-align:center}
+.shcd{background:var(--card);border:1px solid var(--gold-d);border-radius:20px;padding:38px 36px;backdrop-filter:blur(20px);margin-bottom:16px;animation:cin .5s ease}
+@media(max-width:500px){.shcd{padding:26px 18px}}
+.shbi{font-size:52px;margin-bottom:16px}
+.shtl{font-size:22px;font-weight:700;color:var(--gold);margin-bottom:10px}
+.shds{font-size:13px;color:var(--mute);line-height:1.9;margin-bottom:28px}
+.pblk{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:22px;margin-bottom:22px;text-align:left;transition:border-color .3s}
+.pblk.err{border-color:#FF4444}
+.pbl{font-size:13px;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.pops{display:flex;gap:8px;flex-wrap:wrap}
+.pbt{padding:9px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:transparent;color:var(--mute);font-size:13px;cursor:pointer;transition:all .22s;font-family:inherit}
+.pbt:hover{border-color:var(--gold-d);color:var(--txt)}
+.pbt.on{background:var(--gold);border-color:var(--gold);color:#000;font-weight:700}
+.lbx{background:rgba(0,0,0,.4);border:1px solid var(--gold-d);border-radius:10px;padding:13px 18px;font-size:12px;color:var(--gold);word-break:break-all;text-align:left;font-family:monospace;margin-bottom:14px;display:none;line-height:1.6}
+.shbs{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* animations */
+@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes sup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cin{from{opacity:0;transform:scale(.96) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes spn{to{transform:rotate(360deg)}}
+@keyframes pls{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes shk{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--dark)}
+::-webkit-scrollbar-thumb{background:var(--gold-d);border-radius:3px}
+</style>
+</head>
+<body>
+<canvas id="bgc"></canvas>
+<canvas id="cfc"></canvas>
+
+<!-- ═══════════ §1 HERO ═══════════ -->
+<section id="s1" class="sec on">
+  <div class="hemb">⚔️</div>
+  <div class="hkic">王者荣耀 · 峡谷人格研究所</div>
+  <h1 class="htit">你的峡谷<br>灵魂是谁？</h1>
+  <p class="hsub" id="hsub">六道问题，揭示你在峡谷中的真实人格投影<br>发现你的分路归属与英雄画像</p>
+  <div class="hsts">
+    <div><div class="snum">6</div><div class="slbl">道问题</div></div>
+    <div><div class="snum">5</div><div class="slbl">条分路</div></div>
+    <div><div class="snum">15</div><div class="slbl">位英雄匹配</div></div>
+  </div>
+  <button class="bg" onclick="go('s2')">⚔️&nbsp; 进入峡谷</button>
+</section>
+
+<!-- ═══════════ §2 INTRO ═══════════ -->
+<section id="s2" class="sec" style="justify-content:flex-start">
+  <div class="inner">
+    <div class="ih">
+      <div class="tag">HONOR OF KINGS</div>
+      <h2 class="stitle">王者荣耀：峡谷的世界</h2>
+      <p class="sdesc">了解这款亿万玩家共同征战的竞技舞台，以及五条分路的战场定义与人格映射</p>
+    </div>
+    <div class="lore">
+      <p>《王者荣耀》是腾讯天美工作室开发的<strong>多人在线战术竞技游戏（MOBA）</strong>，自2015年上线以来已成为全球用户规模最大的移动竞技游戏之一。游戏以 <strong>5v5对抗</strong> 为核心，两支队伍在"王者峡谷"地图中争夺，率先摧毁对方主基地（水晶）的一方获胜。</p>
+      <p>游戏中拥有超过 <strong>100位英雄</strong>，分为法师、坦克、战士、刺客、射手、辅助六大类型。玩家在对局开始前选择英雄，并按照战术分工进驻指定分路，通过 <strong>击败野怪、摧毁防御塔、争夺资源</strong> 等方式获得经济优势，最终携手赢得胜利。</p>
+      <p>研究表明，玩家对分路的偏好并非随机选择，而是其<strong>真实人格特质在虚拟空间中的深层投射</strong>。通过分析玩家的决策风格、社交模式与压力应对方式，可以精准推测其在峡谷中的"灵魂归属"。</p>
+    </div>
+    <div style="text-align:center;margin-bottom:30px">
+      <div class="tag">FIVE PATHS · FIVE PERSONAS</div>
+      <h2 class="stitle">五条分路 · 五种人格</h2>
+    </div>
+    <div class="rgrid" id="rgrid"></div>
+    <div style="text-align:center;margin-top:10px">
+      <button class="bg" onclick="go('s3');initQ()">✨&nbsp; 开始人格测评</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ §3 QUIZ ═══════════ -->
+<section id="s3" class="sec">
+  <div class="qwrp">
+    <div class="qhd">
+      <div class="tag">PERSONA TEST</div>
+      <h2 class="stitle">峡谷人格测评</h2>
+      <p class="sdesc" style="margin:0 auto">选择最符合你真实想法的选项，无需考虑你的游戏经验</p>
+    </div>
+    <div class="qpr">
+      <div class="qpt"><div class="qpf" id="qpf"></div></div>
+      <span class="qptx" id="qptx">0 / 6</span>
+    </div>
+    <div id="qw"></div>
+  </div>
+</section>
+
+<!-- ═══════════ §4 LOADING ═══════════ -->
+<section id="s4" class="sec">
+  <div class="lorb"></div>
+  <div class="ltxt">峡谷档案分析中……</div>
+  <div style="font-size:13px;color:var(--mute);margin-top:8px">正在解析你的人格维度</div>
+</section>
+
+<!-- ═══════════ §5 RESULTS ═══════════ -->
+<section id="s5" class="sec" style="justify-content:flex-start">
+  <div class="rsin">
+    <div class="rsh">
+      <div class="rvl">测评完成 · 峡谷档案已解锁</div>
+      <h2 class="stitle">你的峡谷灵魂档案</h2>
+    </div>
+    <div id="fcmp" class="fcmp"></div>
+    <div id="rwp" class="rwp"></div>
+    <div id="prc" class="prcd"></div>
+    <div class="orn"><span>◆</span></div>
+    <p style="text-align:center;font-size:12px;color:var(--mute);margin-bottom:16px">你的第二灵魂归属 · 潜在分路倾向</p>
+    <div id="scd" class="scd"></div>
+    <div class="dmp" id="dmp"></div>
+    <div class="ract">
+      <button class="bg" onclick="go('s6');initSh()">🔗&nbsp; 分享给好友</button>
+      <button class="bo" onclick="restart()">↺&nbsp; 重新测评</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ §6 SHARE ═══════════ -->
+<section id="s6" class="sec">
+  <div class="shin">
+    <div style="text-align:center;margin-bottom:32px">
+      <div class="tag">SHARE &amp; WIN</div>
+      <h2 class="stitle">挑战你的好友</h2>
+      <p class="sdesc" style="margin:0 auto">先预测好友的峡谷灵魂，再将链接分享给对方，预测成功解锁专属称号！</p>
+    </div>
+    <div class="shcd">
+      <div class="shbi">🏆</div>
+      <h3 class="shtl">你的好友是哪条分路？</h3>
+      <p class="shds">
+        先 <strong style="color:var(--gold)">预测好友的分路归属</strong>，再将专属链接分享给对方完成测评。<br>
+        若预测成功，你们将共同解锁 <strong style="color:var(--gold)">「峡谷知己」✨</strong> 称号！
+      </p>
+      <div class="pblk" id="pblk">
+        <div class="pbl">⭐ 我预测我的好友最可能是……</div>
+        <div class="pops" id="pops"></div>
+      </div>
+      <div class="lbx" id="lbx"></div>
+      <div class="shbs">
+        <button class="bg" id="bgen" onclick="genLnk()">🔗&nbsp; 生成专属链接</button>
+        <button class="bo" id="bcpy" style="display:none" onclick="cpyLnk()">📋&nbsp; 复制链接</button>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px">
+      <button class="bo" onclick="go('s5')">← 返回我的结果</button>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ─── DATA ─── */
+const R={
+  J:{id:'J',name:'打野',en:'JUNGLE',title:'野区霸主',sub:'孤独的猎人',icon:'🗡️',c:'#FF3B3B',
+    desc:'你就像现实中的创业者或危机公关专家。在混乱中寻找秩序，在危险中捕捉机会是你的本能。你不在乎他人的短视，只在乎最终的胜利。',
+    shr:'高独立性 · 极致行动力 · 风险偏好',
+    per:'高成就动机、风险偏好型决策者。能够在缺乏支援的混沌环境中迅速识别机会窗口，以雷霆之势将其转化为胜势。',
+    heroes:['韩信','李白','镜'],
+    dim:{risk:90,emp:30,flex:70,end:50,aut:80}},
+  M:{id:'M',name:'中路',en:'MID LANE',title:'舞台核心',sub:'璀璨的领航者',icon:'✨',c:'#BB44FF',
+    desc:'你是那个在聚光灯下优雅处理复杂局面的智者。你擅长协调各方资源，在快速的任务切换中保持清醒的头脑。现实中的你往往是社交圈的中心。',
+    shr:'高认知灵活性 · 审美敏锐 · 辐射社交',
+    per:'认知灵活性极高，擅长在多任务环境中保持清醒判断。天然处于信息交汇的中心节点，是团队中不可缺少的枢纽型人格。',
+    heroes:['貂蝉','诸葛亮','王昭君'],
+    dim:{risk:60,emp:65,flex:90,end:55,aut:70}},
+  C:{id:'C',name:'对抗路',en:'TOP LANE',title:'不动如山',sub:'铁血的守望者',icon:'🛡️',c:'#3388FF',
+    desc:'你是团队中最坚固的基石。在没有鲜花和掌声的角落，你独自消化压力，默默积累优势。你深信实干胜过空谈，孤独是你成长的磨刀石。',
+    shr:'心理韧性超强 · 低社交依赖 · 务实主义',
+    per:'挫折忍耐力极强，在高压孤立环境中仍能保持稳定输出。不追求即时认可，以任务完成质量与自我精进为最高价值驱动力。',
+    heroes:['铠','吕布','老夫子'],
+    dim:{risk:40,emp:45,flex:50,end:75,aut:95}},
+  G:{id:'G',name:'发育路',en:'BOT LANE',title:'后期核心',sub:'延迟满足的艺术家',icon:'🏹',c:'#FFAA00',
+    desc:'你拥有惊人的耐心和对未来的坚定信念。你可以忍受漫长的平庸期，只为在最后的决胜时刻展现出摧枯拉朽的统治力。你对数据和细节的痴迷成就了你的专业。',
+    shr:'完美主义 · 高度自制力 · 延迟满足',
+    per:'拥有强烈的完美主义倾向和对数据细节的极度敏感。能够为长远目标抑制即时冲动，在最终释放时爆发出惊人的统治力。',
+    heroes:['公孙离','孙尚香','马可波罗'],
+    dim:{risk:35,emp:40,flex:55,end:95,aut:75}},
+  R:{id:'R',name:'游走',en:'SUPPORT',title:'大地之母',sub:'同理心的守护者',icon:'💚',c:'#33CC77',
+    desc:'你是团队的灵魂伴侣。通过成就他人，你获得了远超个人荣誉的心理满足感。你敏锐的观察力和包容心让整个团队在危机中依然保有温情。',
+    shr:'高同理心 · 利他倾向 · 团队润滑剂',
+    per:'具备极高的同理心与亲社会行为倾向，擅长察觉队友心理状态并给予正向反馈。通过成就他人实现自我价值的典型利他主义人格。',
+    heroes:['大乔','蔡文姬','鬼谷子'],
+    dim:{risk:25,emp:95,flex:60,end:65,aut:45}}
+};
+const DLBL={risk:'风险偏好 & 成就动机',emp:'同理心 & 利他倾向',flex:'认知灵活性 & 多任务',end:'延迟满足 & 耐力',aut:'独立性 & 抗压性'};
+const QS=[
+  {id:'q1',tx:'当你在职场或学校面对一个从未接触过的艰巨任务时，你的第一反应是？',
+   ops:[{k:'a',t:'兴奋不已，认为这是证明个人能力的绝佳机会，即便需要孤军奋战。'},
+        {k:'b',t:'迅速寻找合作伙伴，认为资源整合与团队配合才是成功的关键。'},
+        {k:'c',t:'制定详细的长线计划，不计较初期的枯燥，坚信最后会有大爆发。'},
+        {k:'d',t:'观察全局，寻找最省力的切入点，用最高效的方式解决核心矛盾。'}]},
+  {id:'q2',tx:'在日常社交中，你扮演的角色通常是？',
+   ops:[{k:'a',t:'活跃分子，能迅速察觉大家的情绪变化并进行调解。'},
+        {k:'b',t:'那个默默把事情做完，不需要太多关注的"隐形人"。'},
+        {k:'c',t:'引领话题、追求极致精致与审美表达的人。'},
+        {k:'d',t:'直言不讳、目标感极强，甚至带点侵略性的决策者。'}]},
+  {id:'q3',tx:'想象你正在进行一场激烈的拔河比赛，当你的队伍处于劣势时，你会？',
+   ops:[{k:'a',t:'咬紧牙关死守阵地，哪怕双手磨破也绝不松手。'},
+        {k:'b',t:'大声呼喊节奏，试图通过统一频率来扭转颓势。'},
+        {k:'c',t:'放弃个人舒适姿势，去帮扶那个力量最弱的队友。'},
+        {k:'d',t:'积蓄力量，等待对方松懈的一瞬间，爆发全力一击。'}]},
+  {id:'q4',tx:'你对英雄皮肤的选择最看重哪一点？',
+   ops:[{k:'a',t:'技能特效的华丽程度，要能产生强烈的视觉冲击。'},
+        {k:'b',t:'皮肤带来的打击手感与操作流畅度。'},
+        {k:'c',t:'英雄背后的故事背景，那种宿命感或历史底蕴。'},
+        {k:'d',t:'能够彰显身份的稀有性与社交讨论度。'}]},
+  {id:'q5',tx:'面对队友在公共频道对你的战绩提出质疑时，你的典型做法是？',
+   ops:[{k:'a',t:'保持沉默，用最终的结算数据（如MVP或高伤害）无声回击。'},
+        {k:'b',t:'迅速开启语音解释原因，并尝试重新组织进攻节奏。'},
+        {k:'c',t:'无所谓，只要最后能赢，个人评价不重要。'},
+        {k:'d',t:'哪怕吵起来也要维护自己的尊严，绝对不吃亏。'}]},
+  {id:'q6',tx:'如果在一场战斗后只能给一个人点赞，你会点给？',
+   ops:[{k:'a',t:'那个拿了最多人头、带飞全场的带刀侍卫。'},
+        {k:'b',t:'那个默默承受伤害、为你挡下致命一击的保护者。'},
+        {k:'c',t:'那个在关键时刻推掉高地塔、改变战局的战略家。'},
+        {k:'d',t:'那个操作行云流水、赏心悦目的艺术家。'}]}
+];
+const W={
+  q1:{a:{J:2,C:3},b:{M:1,R:4},c:{C:1,G:4},d:{J:3,M:2}},
+  q2:{a:{M:1,R:4},b:{C:4,R:1},c:{M:3,G:2},d:{J:4,C:1}},
+  q3:{a:{C:5},b:{J:2,M:3},c:{R:5},d:{G:5}},
+  q4:{a:{M:4,G:1},b:{J:3,C:2},c:{J:1,M:1,C:1,G:1,R:1},d:{J:4,R:1}},
+  q5:{a:{G:3,J:2},b:{M:3,R:2},c:{C:2,R:3},d:{J:3,C:2}},
+  q6:{a:{J:5},b:{R:5},c:{C:5},d:{M:5}}
+};
+
+/* ─── STATE ─── */
+let curQ=0,sc={J:0,M:0,C:0,G:0,R:0},myRes=null,myPred=null,shareUrl='';
+
+/* ─── NAV ─── */
+function go(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ─── PARTICLES ─── */
+(function(){
+  const cv=document.getElementById('bgc'),cx=cv.getContext('2d');
+  function rsz(){cv.width=innerWidth;cv.height=innerHeight}rsz();
+  window.addEventListener('resize',rsz);
+  const mk=()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,
+    r:Math.random()*1.8+.3,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,
+    op:Math.random()*.45+.05,g:Math.random()>.72});
+  const pts=Array.from({length:130},mk);
+  (function tick(){
+    cx.clearRect(0,0,cv.width,cv.height);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>cv.width||p.y<0||p.y>cv.height)Object.assign(p,mk());
+      cx.save();cx.globalAlpha=p.op;cx.fillStyle=p.g?'#D4AF37':'#fff';
+      cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fill();cx.restore();
+    });
+    requestAnimationFrame(tick);
+  })();
+})();
+
+/* ─── ROLE CARDS ─── */
+function buildRoles(){
+  document.getElementById('rgrid').innerHTML=Object.values(R).map(r=>`
+    <div class="rcd" style="--rc:${r.c}">
+      <span class="rico">${r.icon}</span>
+      <div class="rnm">${r.name}</div><div class="ren">${r.en}</div>
+      <div class="rds">${r.per}</div>
+      <div class="rhrs">${r.heroes.map(h=>`<span class="rht">${h}</span>`).join('')}</div>
+    </div>`).join('');
+}
+
+/* ─── QUIZ ─── */
+function initQ(){curQ=0;sc={J:0,M:0,C:0,G:0,R:0};renderQ();}
+function renderQ(){
+  const q=QS[curQ],pct=Math.round(curQ/QS.length*100);
+  document.getElementById('qpf').style.width=pct+'%';
+  document.getElementById('qptx').textContent=`${curQ} / ${QS.length}`;
+  document.getElementById('qw').innerHTML=`
+    <div class="qcd">
+      <div class="qnum">问题 ${curQ+1} / ${QS.length}</div>
+      <div class="qtxt">${q.tx}</div>
+      <div class="qops">${q.ops.map(o=>`
+        <button class="qop" onclick="pick('${q.id}','${o.k}')">
+          <span class="olk">${o.k.toUpperCase()}</span><span>${o.t}</span>
+        </button>`).join('')}
+      </div>
+    </div>`;
+}
+function pick(qid,k){
+  const w=W[qid][k];
+  if(w)Object.entries(w).forEach(([r,v])=>sc[r]+=v);
+  const cd=document.querySelector('.qcd');
+  cd.style.transition='opacity .28s,transform .28s';
+  cd.style.opacity='0';cd.style.transform='translateX(-24px)';
+  setTimeout(()=>{
+    curQ++;
+    if(curQ<QS.length){
+      renderQ();
+      document.getElementById('qpf').style.width=Math.round(curQ/QS.length*100)+'%';
+      document.getElementById('qptx').textContent=`${curQ} / ${QS.length}`;
+    }else{
+      document.getElementById('qpf').style.width='100%';
+      document.getElementById('qptx').textContent=`${QS.length} / ${QS.length}`;
+      go('s4');setTimeout(showRes,1800);
+    }
+  },300);
+}
+
+/* ─── RESULTS ─── */
+function showRes(){
+  const sorted=Object.entries(sc).sort((a,b)=>b[1]-a[1]);
+  const pid=sorted[0][0],sid=sorted[1][0];
+  myRes=pid;
+  const P=R[pid],S=R[sid];
+  const mx=sorted[0][1]||1;
+
+  /* primary */
+  document.getElementById('prc').innerHTML=`
+    <div style="background:linear-gradient(145deg,${P.c}20,${P.c}0d);border:1px solid ${P.c}88;
+      border-radius:24px;padding:54px 44px;text-align:center;backdrop-filter:blur(16px);">
+      <div style="display:inline-flex;align-items:center;gap:6px;padding:5px 18px;border-radius:20px;
+        font-size:11px;letter-spacing:3px;margin-bottom:22px;border:1px solid ${P.c}66;color:${P.c}">
+        ${P.en} &nbsp;·&nbsp; ${P.name}
+      </div>
+      <div style="font-size:76px;display:block;margin:0 auto 20px;animation:flt 3s ease-in-out infinite;
+        filter:drop-shadow(0 0 20px ${P.c});color:${P.c}">${P.icon}</div>
+      <div style="font-size:12px;letter-spacing:5px;color:${P.c}99;margin-bottom:6px">你的峡谷灵魂</div>
+      <div style="font-size:38px;font-weight:900;color:${P.c};line-height:1.2;margin-bottom:6px">${P.title}</div>
+      <div style="font-size:17px;color:${P.c}bb;margin-bottom:28px">${P.sub}</div>
+      <p style="font-size:14px;line-height:1.95;max-width:480px;margin:0 auto 28px;opacity:.85">${P.desc}</p>
+      <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:8px">
+        ${P.heroes.map(h=>`<span style="padding:8px 20px;background:rgba(255,255,255,.08);
+          border:1px solid ${P.c}44;border-radius:20px;font-size:13px;color:${P.c}cc">${h}</span>`).join('')}
+      </div>
+    </div>`;
+
+  /* secondary */
+  document.getElementById('scd').innerHTML=`
+    <div style="background:linear-gradient(135deg,${S.c}14,transparent);border:1px solid ${S.c}44;
+      border-radius:16px;padding:28px 32px;display:flex;align-items:center;gap:22px;
+      backdrop-filter:blur(12px);animation:cin .7s ease .25s backwards;width:100%">
+      <span style="font-size:48px;filter:drop-shadow(0 0 10px ${S.c})">${S.icon}</span>
+      <div>
+        <div style="font-size:11px;letter-spacing:3px;color:${S.c}88;margin-bottom:4px">第二灵魂归属 · ${S.en}</div>
+        <div style="font-size:20px;font-weight:700;color:${S.c};margin-bottom:6px">${S.name} · ${S.sub}</div>
+        <div style="font-size:12px;color:var(--mute);line-height:1.6">${S.shr}</div>
+      </div>
+    </div>`;
+
+  /* dimension bars */
+  document.getElementById('dmp').innerHTML=`
+    <div class="dmh">◆ 人格维度分析</div>
+    ${Object.entries(P.dim).map(([k,v])=>`
+      <div class="dmr">
+        <div class="dml">${DLBL[k]}</div>
+        <div class="dmt"><div class="dmf" style="background:linear-gradient(90deg,${P.c}88,${P.c});width:${v}%"></div></div>
+        <span class="dmp2" style="color:${P.c}">${v}%</span>
+      </div>`).join('')}`;
+
+  go('s5');
+  checkFriend();
+}
+
+/* ─── FRIEND CHECK ─── */
+function getParams(){const p=new URLSearchParams(location.search);return{ref:p.get('ref'),pred:p.get('predict')};}
+function checkFriend(){
+  const{ref,pred}=getParams();
+  if(!ref||!pred||!R[ref]||!R[pred])return;
+  const SH=R[ref],PR=R[pred];
+
+  document.getElementById('fcmp').innerHTML=`
+    <div style="font-size:11px;letter-spacing:4px;color:var(--gold);margin-bottom:12px">来自好友的挑战</div>
+    <p style="font-size:15px;line-height:1.9">
+      你的好友是 <strong style="color:${SH.c}">${SH.icon} ${SH.name}位</strong> 玩家<br>
+      他/她预测你是：<strong style="color:${PR.c};font-size:20px">${PR.icon} ${PR.name}</strong>
+    </p>`;
+  document.getElementById('fcmp').classList.add('on');
+
+  const rw=document.getElementById('rwp');
+  if(myRes===pred){
+    rw.style.cssText='background:linear-gradient(135deg,rgba(212,175,55,.18),rgba(255,170,0,.08));border:1px solid rgba(212,175,55,.5);border-radius:16px;padding:32px;text-align:center;margin-bottom:28px;animation:cin .5s ease';
+    rw.innerHTML=`<span style="font-size:48px;display:block;margin-bottom:12px">🌟</span>
+      <div style="font-size:20px;font-weight:700;color:var(--gold);margin-bottom:10px">🎉 好友猜对了！你们是真正的峡谷知己！</div>
+      <p style="font-size:13px;color:var(--mute);line-height:1.8">
+        你的好友成功预测了你的峡谷灵魂分路！<br>
+        你们已共同解锁专属称号：<strong style="color:var(--gold)">「峡谷知己」✨</strong><br>
+        截图保存这一刻，发给好友一起庆祝吧！
+      </p>`;
+    rw.classList.add('on');
+    setTimeout(confetti,400);
+  }else{
+    const MR=R[myRes];
+    rw.style.cssText='background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:32px;text-align:center;margin-bottom:28px;animation:cin .5s ease';
+    rw.innerHTML=`<span style="font-size:48px;display:block;margin-bottom:12px">🤔</span>
+      <div style="font-size:20px;font-weight:700;color:var(--mute);margin-bottom:10px">好友预测失误……</div>
+      <p style="font-size:13px;color:var(--mute);line-height:1.8">
+        好友预测你是 <strong style="color:${PR.c}">${PR.name}</strong>，
+        但你实际的灵魂分路是 <strong style="color:${MR.c}">${MR.icon} ${MR.name}</strong>！<br>
+        继续分享测评，深入探索彼此的峡谷灵魂～
+      </p>`;
+    rw.classList.add('on');
+  }
+}
+
+/* ─── SHARE ─── */
+function initSh(){
+  document.getElementById('pops').innerHTML=Object.values(R).map(r=>`
+    <button class="pbt" data-id="${r.id}" onclick="setPred('${r.id}')"
+      style="border-color:${r.c}33;color:${r.c}bb">${r.icon} ${r.name}</button>`).join('');
+}
+function setPred(id){
+  myPred=id;
+  document.querySelectorAll('.pbt').forEach(b=>b.classList.toggle('on',b.dataset.id===id));
+  document.getElementById('pblk').classList.remove('err');
+}
+function genLnk(){
+  if(!myPred){
+    const pb=document.getElementById('pblk');
+    pb.classList.add('err');pb.style.animation='shk .4s ease';
+    setTimeout(()=>{pb.style.animation='';pb.classList.remove('err');},500);
+    return;
+  }
+  const base=location.href.split('?')[0];
+  shareUrl=`${base}?ref=${myRes}&predict=${myPred}`;
+  const lb=document.getElementById('lbx');
+  lb.textContent=shareUrl;lb.style.display='block';
+  document.getElementById('bcpy').style.display='inline-flex';
+  document.getElementById('bgen').textContent='🔄  重新生成';
+}
+function cpyLnk(){
+  const btn=document.getElementById('bcpy');
+  const fb=()=>{const t=document.createElement('textarea');t.value=shareUrl;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);};
+  (navigator.clipboard?navigator.clipboard.writeText(shareUrl):Promise.reject()).catch(fb).finally(()=>{
+    btn.textContent='✓  已复制！';btn.style.color='#33CC77';btn.style.borderColor='#33CC77';
+    setTimeout(()=>{btn.textContent='📋  复制链接';btn.style.color='';btn.style.borderColor='';},2200);
+  });
+}
+
+/* ─── CONFETTI ─── */
+function confetti(){
+  const cv=document.getElementById('cfc'),cx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;cv.style.display='block';
+  const C=['#D4AF37','#FFE566','#FF3B3B','#BB44FF','#33CC77','#FFAA00','#3388FF','#fff'];
+  const ps=Array.from({length:180},()=>({
+    x:Math.random()*cv.width,y:-20-Math.random()*200,
+    sz:Math.random()*9+4,col:C[Math.floor(Math.random()*C.length)],
+    sp:Math.random()*4+2,dr:(Math.random()-.5)*2.5,
+    ro:Math.random()*Math.PI*2,rv:(Math.random()-.5)*.15,rect:Math.random()>.5
+  }));
+  let f=0;
+  (function draw(){
+    cx.clearRect(0,0,cv.width,cv.height);
+    ps.forEach(p=>{
+      p.y+=p.sp;p.x+=p.dr;p.ro+=p.rv;
+      cx.save();cx.translate(p.x,p.y);cx.rotate(p.ro);
+      cx.globalAlpha=Math.max(0,1-p.y/cv.height*1.2);cx.fillStyle=p.col;
+      p.rect?cx.fillRect(-p.sz/2,-p.sz/4,p.sz,p.sz/2):(cx.beginPath(),cx.arc(0,0,p.sz/2,0,Math.PI*2),cx.fill());
+      cx.restore();
+    });
+    if(++f<220)requestAnimationFrame(draw);else cv.style.display='none';
+  })();
+}
+
+/* ─── RESTART ─── */
+function restart(){myRes=null;myPred=null;shareUrl='';sc={J:0,M:0,C:0,G:0,R:0};go('s3');initQ();}
+
+/* ─── INIT ─── */
+document.addEventListener('DOMContentLoaded',()=>{
+  buildRoles();
+  const{ref,pred}=getParams();
+  if(ref&&pred&&R[ref]&&R[pred]){
+    const SH=R[ref],PR=R[pred];
+    document.getElementById('hsub').innerHTML=`
+      你的好友（<strong style="color:${SH.c}">${SH.icon} ${SH.name}位</strong> 玩家）<br>
+      预测你是 <strong style="color:${PR.c}">${PR.icon} ${PR.name}</strong> 玩家<br>
+      完成测评，揭晓答案！`;
+  }
+});
+</script>
+</body>
+</html>
