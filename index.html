@@ -9,42 +9,32 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --gold:#D4AF37;--gold-l:#FFE566;--gold-d:rgba(212,175,55,.22);--gold-g:rgba(212,175,55,.5);
+  --gold:#D4AF37;--gold-l:#FFE566;--gold-d:rgba(212,175,55,.22);
   --dark:#07070F;--dark2:#0D0D1A;--card:rgba(13,13,26,.88);
   --txt:#EDE8D8;--mute:#8A8AA8;
   --J:#FF3B3B;--M:#BB44FF;--C:#3388FF;--G:#FFAA00;--R:#33CC77;
 }
 html{scroll-behavior:smooth}
 body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',serif;overflow-x:hidden;min-height:100vh}
-
-/* canvas */
 #bgc{position:fixed;inset:0;z-index:0;pointer-events:none}
 #cfc{position:fixed;inset:0;z-index:200;pointer-events:none;display:none}
-
-/* sections */
 .sec{min-height:100vh;position:relative;z-index:1;display:none;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px}
 .sec.on{display:flex}
-
-/* typography */
 .tag{display:inline-block;padding:4px 18px;border:1px solid var(--gold-d);border-radius:20px;font-size:11px;letter-spacing:5px;color:var(--gold);margin-bottom:18px;text-transform:uppercase}
 .stitle{font-size:clamp(26px,6vw,52px);font-weight:900;background:linear-gradient(135deg,#FFE566 0%,#D4AF37 50%,#FF9900 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;margin-bottom:14px;filter:drop-shadow(0 0 20px rgba(212,175,55,.3))}
 .sdesc{font-size:14px;color:var(--mute);line-height:1.9;max-width:540px;text-align:center}
-
-/* buttons */
-.bg{display:inline-flex;align-items:center;gap:10px;padding:15px 44px;background:linear-gradient(135deg,#D4AF37,#FF9900);color:#000;font-size:17px;font-weight:700;border:none;border-radius:50px;cursor:pointer;position:relative;overflow:hidden;transition:all .3s;box-shadow:0 0 30px rgba(212,175,55,.35);font-family:inherit}
+.bg{display:inline-flex;align-items:center;gap:10px;padding:15px 44px;background:linear-gradient(135deg,#D4AF37,#FF9900);color:#000;font-size:17px;font-weight:700;border:none;border-radius:50px;cursor:pointer;overflow:hidden;transition:all .3s;box-shadow:0 0 30px rgba(212,175,55,.35);font-family:inherit}
 .bg:hover{transform:translateY(-3px);box-shadow:0 8px 40px rgba(212,175,55,.55)}
 .bg:active{transform:translateY(0)}
 .bo{display:inline-flex;align-items:center;gap:8px;padding:12px 30px;background:transparent;color:var(--gold);font-size:14px;border:1px solid var(--gold-d);border-radius:50px;cursor:pointer;transition:all .3s;font-family:inherit}
 .bo:hover{background:var(--gold-d);border-color:var(--gold)}
-
-/* ornament */
 .orn{display:flex;align-items:center;gap:12px;width:100%;margin:28px 0}
 .orn::before,.orn::after{content:'';flex:1;height:1px}
 .orn::before{background:linear-gradient(90deg,transparent,var(--gold-d))}
 .orn::after{background:linear-gradient(90deg,var(--gold-d),transparent)}
 .orn span{font-size:14px;color:var(--gold);opacity:.5}
 
-/* ─── HERO ─── */
+/* HERO */
 #s1{background:radial-gradient(ellipse at 50% 40%,rgba(204,34,0,.13) 0%,transparent 65%),radial-gradient(ellipse at 70% 70%,rgba(212,175,55,.07) 0%,transparent 50%);text-align:center;gap:0}
 .hemb{font-size:90px;animation:flt 3.5s ease-in-out infinite;filter:drop-shadow(0 0 30px rgba(212,175,55,.6));margin-bottom:24px;line-height:1}
 .hkic{font-size:11px;letter-spacing:8px;color:var(--gold);margin-bottom:20px;opacity:.75}
@@ -54,7 +44,7 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
 .snum{font-size:30px;font-weight:900;color:var(--gold)}
 .slbl{font-size:12px;color:var(--mute);margin-top:2px;letter-spacing:1px}
 
-/* ─── INTRO ─── */
+/* INTRO */
 #s2{justify-content:flex-start;padding-top:70px;padding-bottom:80px}
 .inner{max-width:1100px;width:100%;margin:0 auto}
 .ih{text-align:center;margin-bottom:50px}
@@ -74,7 +64,7 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
 .rhrs{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.07)}
 .rht{display:inline-block;padding:3px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;font-size:11px;color:var(--mute);margin:2px 2px 0 0}
 
-/* ─── QUIZ ─── */
+/* QUIZ */
 #s3{background:radial-gradient(ellipse at 50% 40%,rgba(100,50,200,.08) 0%,transparent 65%)}
 .qwrp{max-width:680px;width:100%}
 .qhd{text-align:center;margin-bottom:36px}
@@ -92,12 +82,12 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
 .qop:hover .olk{background:var(--gold);color:#000;border-color:var(--gold)}
 .olk{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;min-width:28px;border:1px solid var(--gold-d);border-radius:7px;font-size:12px;font-weight:700;color:var(--gold);transition:all .22s}
 
-/* ─── LOADING ─── */
+/* LOADING */
 #s4{gap:24px;text-align:center}
 .lorb{width:80px;height:80px;border-radius:50%;border:3px solid transparent;border-top-color:var(--gold);border-right-color:var(--gold-l);animation:spn 1s linear infinite;box-shadow:0 0 30px rgba(212,175,55,.4)}
 .ltxt{font-size:14px;letter-spacing:4px;color:var(--gold);animation:pls 1.5s ease-in-out infinite}
 
-/* ─── RESULTS ─── */
+/* RESULTS */
 #s5{justify-content:flex-start;padding-top:70px;padding-bottom:80px}
 .rsin{max-width:860px;width:100%;margin:0 auto}
 .rsh{text-align:center;margin-bottom:50px}
@@ -113,16 +103,32 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
 .dmf{height:100%;border-radius:3px;width:0%;transition:width 1.2s ease .6s}
 .dmp2{font-size:11px;width:32px;text-align:right}
 @media(max-width:500px){.dml{width:100px;font-size:11px}}
-
-/* friend compare */
 .fcmp{background:linear-gradient(135deg,rgba(100,50,200,.2),rgba(212,175,55,.1));border:1px solid var(--gold-d);border-radius:16px;padding:28px 32px;text-align:center;margin-bottom:28px;animation:cin .5s ease;display:none}
 .fcmp.on{display:block}
 .rwp{border-radius:16px;padding:32px;text-align:center;margin-bottom:28px;animation:cin .5s ease;display:none}
 .rwp.on{display:block}
 .ract{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:cin .7s ease .6s backwards}
 
-/* ─── SHARE ─── */
-#s6{background:radial-gradient(ellipse at 50% 40%,rgba(0,80,200,.08) 0%,transparent 65%)}
+/* HERO CHALLENGE (s6) */
+#s6{background:radial-gradient(ellipse at 50% 40%,rgba(212,175,55,.07) 0%,transparent 65%)}
+.hcin{max-width:680px;width:100%}
+.hccd{background:var(--card);border:1px solid var(--gold-d);border-radius:20px;padding:36px;backdrop-filter:blur(20px);margin-bottom:16px;animation:cin .5s ease}
+@media(max-width:500px){.hccd{padding:24px 16px}}
+.hgrid{display:flex;flex-wrap:wrap;gap:8px;max-height:230px;overflow-y:auto;padding:4px 2px}
+.hgrid::-webkit-scrollbar{width:4px}
+.hgrid::-webkit-scrollbar-thumb{background:var(--gold-d);border-radius:2px}
+.hbt{padding:8px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:var(--mute);font-size:13px;cursor:pointer;transition:all .2s;font-family:inherit}
+.hbt:hover{border-color:var(--gold-d);color:var(--txt)}
+.hbt.on{background:var(--gold);border-color:var(--gold);color:#000;font-weight:700}
+.hsrch{width:100%;padding:10px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;color:var(--txt);font-size:13px;margin-bottom:12px;font-family:inherit;outline:none}
+.hsrch:focus{border-color:var(--gold-d)}
+.hcrs{border-radius:14px;padding:28px;text-align:center;margin-bottom:20px;display:none;animation:cin .4s ease}
+.hcrs.on{display:block}
+.hsel-row{font-size:13px;color:var(--gold);margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.07);display:none}
+.pbl{font-size:13px;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+
+/* SHARE (s7) */
+#s7{background:radial-gradient(ellipse at 50% 40%,rgba(0,80,200,.08) 0%,transparent 65%)}
 .shin{max-width:660px;width:100%;text-align:center}
 .shcd{background:var(--card);border:1px solid var(--gold-d);border-radius:20px;padding:38px 36px;backdrop-filter:blur(20px);margin-bottom:16px;animation:cin .5s ease}
 @media(max-width:500px){.shcd{padding:26px 18px}}
@@ -131,7 +137,6 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
 .shds{font-size:13px;color:var(--mute);line-height:1.9;margin-bottom:28px}
 .pblk{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:22px;margin-bottom:22px;text-align:left;transition:border-color .3s}
 .pblk.err{border-color:#FF4444}
-.pbl{font-size:13px;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:6px}
 .pops{display:flex;gap:8px;flex-wrap:wrap}
 .pbt{padding:9px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:transparent;color:var(--mute);font-size:13px;cursor:pointer;transition:all .22s;font-family:inherit}
 .pbt:hover{border-color:var(--gold-d);color:var(--txt)}
@@ -139,14 +144,13 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
 .lbx{background:rgba(0,0,0,.4);border:1px solid var(--gold-d);border-radius:10px;padding:13px 18px;font-size:12px;color:var(--gold);word-break:break-all;text-align:left;font-family:monospace;margin-bottom:14px;display:none;line-height:1.6}
 .shbs{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
-/* animations */
+/* ANIMATIONS */
 @keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @keyframes sup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes cin{from{opacity:0;transform:scale(.96) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
 @keyframes spn{to{transform:rotate(360deg)}}
 @keyframes pls{0%,100%{opacity:.4}50%{opacity:1}}
 @keyframes shk{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
-
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:var(--dark)}
 ::-webkit-scrollbar-thumb{background:var(--gold-d);border-radius:3px}
@@ -156,21 +160,21 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
 <canvas id="bgc"></canvas>
 <canvas id="cfc"></canvas>
 
-<!-- ═══════════ §1 HERO ═══════════ -->
+<!-- §1 HERO -->
 <section id="s1" class="sec on">
   <div class="hemb">⚔️</div>
   <div class="hkic">王者荣耀 · 峡谷人格研究所</div>
   <h1 class="htit">你的峡谷<br>灵魂是谁？</h1>
-  <p class="hsub" id="hsub">六道问题，揭示你在峡谷中的真实人格投影<br>发现你的分路归属与英雄画像</p>
+  <p class="hsub" id="hsub">二十道问题，揭示你在峡谷中的真实人格投影<br>发现你的分路归属、英雄画像与隐藏特质</p>
   <div class="hsts">
-    <div><div class="snum">6</div><div class="slbl">道问题</div></div>
+    <div><div class="snum">20</div><div class="slbl">道问题</div></div>
     <div><div class="snum">5</div><div class="slbl">条分路</div></div>
     <div><div class="snum">15</div><div class="slbl">位英雄匹配</div></div>
   </div>
   <button class="bg" onclick="go('s2')">⚔️&nbsp; 进入峡谷</button>
 </section>
 
-<!-- ═══════════ §2 INTRO ═══════════ -->
+<!-- §2 INTRO -->
 <section id="s2" class="sec" style="justify-content:flex-start">
   <div class="inner">
     <div class="ih">
@@ -181,7 +185,7 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
     <div class="lore">
       <p>《王者荣耀》是腾讯天美工作室开发的<strong>多人在线战术竞技游戏（MOBA）</strong>，自2015年上线以来已成为全球用户规模最大的移动竞技游戏之一。游戏以 <strong>5v5对抗</strong> 为核心，两支队伍在"王者峡谷"地图中争夺，率先摧毁对方主基地（水晶）的一方获胜。</p>
       <p>游戏中拥有超过 <strong>100位英雄</strong>，分为法师、坦克、战士、刺客、射手、辅助六大类型。玩家在对局开始前选择英雄，并按照战术分工进驻指定分路，通过 <strong>击败野怪、摧毁防御塔、争夺资源</strong> 等方式获得经济优势，最终携手赢得胜利。</p>
-      <p>研究表明，玩家对分路的偏好并非随机选择，而是其<strong>真实人格特质在虚拟空间中的深层投射</strong>。通过分析玩家的决策风格、社交模式与压力应对方式，可以精准推测其在峡谷中的"灵魂归属"。</p>
+      <p>研究表明，玩家对分路的偏好并非随机选择，而是其<strong>真实人格特质在虚拟空间中的深层投射</strong>。通过分析决策风格、社交模式与压力应对方式，可以精准推测玩家在峡谷中的"灵魂归属"。</p>
     </div>
     <div style="text-align:center;margin-bottom:30px">
       <div class="tag">FIVE PATHS · FIVE PERSONAS</div>
@@ -194,7 +198,7 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
   </div>
 </section>
 
-<!-- ═══════════ §3 QUIZ ═══════════ -->
+<!-- §3 QUIZ -->
 <section id="s3" class="sec">
   <div class="qwrp">
     <div class="qhd">
@@ -204,20 +208,20 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
     </div>
     <div class="qpr">
       <div class="qpt"><div class="qpf" id="qpf"></div></div>
-      <span class="qptx" id="qptx">0 / 6</span>
+      <span class="qptx" id="qptx">0 / 20</span>
     </div>
     <div id="qw"></div>
   </div>
 </section>
 
-<!-- ═══════════ §4 LOADING ═══════════ -->
+<!-- §4 LOADING -->
 <section id="s4" class="sec">
   <div class="lorb"></div>
   <div class="ltxt">峡谷档案分析中……</div>
   <div style="font-size:13px;color:var(--mute);margin-top:8px">正在解析你的人格维度</div>
 </section>
 
-<!-- ═══════════ §5 RESULTS ═══════════ -->
+<!-- §5 RESULTS -->
 <section id="s5" class="sec" style="justify-content:flex-start">
   <div class="rsin">
     <div class="rsh">
@@ -232,31 +236,73 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
     <div id="scd" class="scd"></div>
     <div class="dmp" id="dmp"></div>
     <div class="ract">
-      <button class="bg" onclick="go('s6');initSh()">🔗&nbsp; 分享给好友</button>
+      <button class="bg" id="btn-hero-guess" style="display:none" onclick="go('s6');initHeroGuess()">🎯&nbsp; 猜猜好友的本命英雄</button>
+      <button class="bg" onclick="go('s7');initSh()">🔗&nbsp; 分享给好友</button>
       <button class="bo" onclick="restart()">↺&nbsp; 重新测评</button>
     </div>
   </div>
 </section>
 
-<!-- ═══════════ §6 SHARE ═══════════ -->
+<!-- §6 HERO CHALLENGE (friend guesses hero) -->
 <section id="s6" class="sec">
+  <div class="hcin">
+    <div style="text-align:center;margin-bottom:32px">
+      <div class="tag">HERO CHALLENGE</div>
+      <h2 class="stitle">猜猜好友的本命英雄</h2>
+      <p class="sdesc" style="margin:0 auto">你的好友隐藏了他的本命英雄，猜对了将解锁双重称号 <strong style="color:var(--gold)">「峡谷灵魂伴侣」</strong>！</p>
+    </div>
+
+    <!-- Result panel, shown after guessing -->
+    <div id="hcrs" class="hcrs"></div>
+
+    <!-- Guess card -->
+    <div class="hccd" id="hc-card">
+      <div class="pbl">🎯 从下方选择你认为的答案</div>
+      <input class="hsrch" id="hg-srch" placeholder="搜索英雄名……" oninput="filterH('hg-srch','hg-grid')">
+      <div class="hgrid" id="hg-grid"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="bo" onclick="go('s7');initSh()">跳过 → 分享我的结果</button>
+      <button class="bo" onclick="go('s5')">← 返回结果</button>
+    </div>
+  </div>
+</section>
+
+<!-- §7 SHARE -->
+<section id="s7" class="sec">
   <div class="shin">
     <div style="text-align:center;margin-bottom:32px">
       <div class="tag">SHARE &amp; WIN</div>
       <h2 class="stitle">挑战你的好友</h2>
-      <p class="sdesc" style="margin:0 auto">先预测好友的峡谷灵魂，再将链接分享给对方，预测成功解锁专属称号！</p>
+      <p class="sdesc" style="margin:0 auto">预测好友分路 + 设置本命英雄谜题，双重挑战，双倍奖励！</p>
     </div>
     <div class="shcd">
       <div class="shbi">🏆</div>
-      <h3 class="shtl">你的好友是哪条分路？</h3>
+      <h3 class="shtl">生成你的专属挑战链接</h3>
       <p class="shds">
-        先 <strong style="color:var(--gold)">预测好友的分路归属</strong>，再将专属链接分享给对方完成测评。<br>
-        若预测成功，你们将共同解锁 <strong style="color:var(--gold)">「峡谷知己」✨</strong> 称号！
+        ① <strong style="color:var(--gold)">选择你的本命英雄</strong>（可选）让好友来猜<br>
+        ② <strong style="color:var(--gold)">预测好友的分路归属</strong><br>
+        两项都猜对，你们将共同解锁 <strong style="color:var(--gold)">「峡谷灵魂伴侣」✨</strong> 最高称号！
       </p>
+
+      <!-- Hero selection block -->
+      <div class="pblk" style="margin-bottom:22px">
+        <div class="pbl">🔥 我的本命英雄是…（让好友来猜！可选）</div>
+        <input class="hsrch" id="hp-srch" placeholder="搜索英雄名……" oninput="filterH('hp-srch','hp-grid')">
+        <div class="hgrid" id="hp-grid"></div>
+        <div class="hsel-row" id="hp-sel">
+          已选本命：<strong id="hp-sel-name" style="color:var(--gold)"></strong> ✓
+          &nbsp;<button class="bo" style="padding:3px 10px;font-size:11px" onclick="clearHero()">更改</button>
+        </div>
+      </div>
+
+      <!-- Lane prediction block -->
       <div class="pblk" id="pblk">
         <div class="pbl">⭐ 我预测我的好友最可能是……</div>
         <div class="pops" id="pops"></div>
       </div>
+
       <div class="lbx" id="lbx"></div>
       <div class="shbs">
         <button class="bg" id="bgen" onclick="genLnk()">🔗&nbsp; 生成专属链接</button>
@@ -270,40 +316,49 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
 </section>
 
 <script>
-/* ─── DATA ─── */
-const R={
+/* ═══════════════════════════════════
+   DATA
+═══════════════════════════════════ */
+const ROLES={
   J:{id:'J',name:'打野',en:'JUNGLE',title:'野区霸主',sub:'孤独的猎人',icon:'🗡️',c:'#FF3B3B',
     desc:'你就像现实中的创业者或危机公关专家。在混乱中寻找秩序，在危险中捕捉机会是你的本能。你不在乎他人的短视，只在乎最终的胜利。',
     shr:'高独立性 · 极致行动力 · 风险偏好',
     per:'高成就动机、风险偏好型决策者。能够在缺乏支援的混沌环境中迅速识别机会窗口，以雷霆之势将其转化为胜势。',
-    heroes:['韩信','李白','镜'],
-    dim:{risk:90,emp:30,flex:70,end:50,aut:80}},
+    heroes:['韩信','李白','镜'],dim:{risk:90,emp:30,flex:70,end:50,aut:80}},
   M:{id:'M',name:'中路',en:'MID LANE',title:'舞台核心',sub:'璀璨的领航者',icon:'✨',c:'#BB44FF',
     desc:'你是那个在聚光灯下优雅处理复杂局面的智者。你擅长协调各方资源，在快速的任务切换中保持清醒的头脑。现实中的你往往是社交圈的中心。',
     shr:'高认知灵活性 · 审美敏锐 · 辐射社交',
     per:'认知灵活性极高，擅长在多任务环境中保持清醒判断。天然处于信息交汇的中心节点，是团队中不可缺少的枢纽型人格。',
-    heroes:['貂蝉','诸葛亮','王昭君'],
-    dim:{risk:60,emp:65,flex:90,end:55,aut:70}},
+    heroes:['貂蝉','诸葛亮','王昭君'],dim:{risk:60,emp:65,flex:90,end:55,aut:70}},
   C:{id:'C',name:'对抗路',en:'TOP LANE',title:'不动如山',sub:'铁血的守望者',icon:'🛡️',c:'#3388FF',
     desc:'你是团队中最坚固的基石。在没有鲜花和掌声的角落，你独自消化压力，默默积累优势。你深信实干胜过空谈，孤独是你成长的磨刀石。',
     shr:'心理韧性超强 · 低社交依赖 · 务实主义',
     per:'挫折忍耐力极强，在高压孤立环境中仍能保持稳定输出。不追求即时认可，以任务完成质量与自我精进为最高价值驱动力。',
-    heroes:['铠','吕布','老夫子'],
-    dim:{risk:40,emp:45,flex:50,end:75,aut:95}},
+    heroes:['铠','吕布','老夫子'],dim:{risk:40,emp:45,flex:50,end:75,aut:95}},
   G:{id:'G',name:'发育路',en:'BOT LANE',title:'后期核心',sub:'延迟满足的艺术家',icon:'🏹',c:'#FFAA00',
     desc:'你拥有惊人的耐心和对未来的坚定信念。你可以忍受漫长的平庸期，只为在最后的决胜时刻展现出摧枯拉朽的统治力。你对数据和细节的痴迷成就了你的专业。',
     shr:'完美主义 · 高度自制力 · 延迟满足',
     per:'拥有强烈的完美主义倾向和对数据细节的极度敏感。能够为长远目标抑制即时冲动，在最终释放时爆发出惊人的统治力。',
-    heroes:['公孙离','孙尚香','马可波罗'],
-    dim:{risk:35,emp:40,flex:55,end:95,aut:75}},
+    heroes:['公孙离','孙尚香','马可波罗'],dim:{risk:35,emp:40,flex:55,end:95,aut:75}},
   R:{id:'R',name:'游走',en:'SUPPORT',title:'大地之母',sub:'同理心的守护者',icon:'💚',c:'#33CC77',
     desc:'你是团队的灵魂伴侣。通过成就他人，你获得了远超个人荣誉的心理满足感。你敏锐的观察力和包容心让整个团队在危机中依然保有温情。',
     shr:'高同理心 · 利他倾向 · 团队润滑剂',
     per:'具备极高的同理心与亲社会行为倾向，擅长察觉队友心理状态并给予正向反馈。通过成就他人实现自我价值的典型利他主义人格。',
-    heroes:['大乔','蔡文姬','鬼谷子'],
-    dim:{risk:25,emp:95,flex:60,end:65,aut:45}}
+    heroes:['大乔','蔡文姬','鬼谷子'],dim:{risk:25,emp:95,flex:60,end:65,aut:45}}
 };
 const DLBL={risk:'风险偏好 & 成就动机',emp:'同理心 & 利他倾向',flex:'认知灵活性 & 多任务',end:'延迟满足 & 耐力',aut:'独立性 & 抗压性'};
+
+const HEROES=[
+  '韩信','李白','镜','兰陵王','云中君','孙悟空','橘右京','百里玄策',
+  '貂蝉','诸葛亮','王昭君','芈月','嫦娥','不知火舞','张良','女娲','杨玉环',
+  '铠','吕布','老夫子','夏侯惇','廉颇','达摩','亚瑟','典韦','曹操','项羽',
+  '公孙离','孙尚香','马可波罗','虞姬','狄仁杰','后羿','黄忠','伽罗','成吉思汗',
+  '大乔','蔡文姬','鬼谷子','孙膑','明世隐','瑶','梦奇','东皇太一','鲁班七号',
+  '赵云','关羽','张飞','花木兰','雅典娜','宫本武藏','娜可露露',
+  '上官婉儿','露娜','元歌','庄周','牛魔','碎月','西施','哪吒','钟无艳',
+  '刘邦','武则天','扁鹊','司马懿','姜子牙','白起','盘古','孙策','钟馗'
+];
+
 const QS=[
   {id:'q1',tx:'当你在职场或学校面对一个从未接触过的艰巨任务时，你的第一反应是？',
    ops:[{k:'a',t:'兴奋不已，认为这是证明个人能力的绝佳机会，即便需要孤军奋战。'},
@@ -334,28 +389,120 @@ const QS=[
    ops:[{k:'a',t:'那个拿了最多人头、带飞全场的带刀侍卫。'},
         {k:'b',t:'那个默默承受伤害、为你挡下致命一击的保护者。'},
         {k:'c',t:'那个在关键时刻推掉高地塔、改变战局的战略家。'},
-        {k:'d',t:'那个操作行云流水、赏心悦目的艺术家。'}]}
+        {k:'d',t:'那个操作行云流水、赏心悦目的艺术家。'}]},
+  {id:'q7',tx:'当团队在重要决策上产生分歧，你通常会？',
+   ops:[{k:'a',t:'直接说出自己的判断，快速推动执行，不拖泥带水。'},
+        {k:'b',t:'综合各方意见，找到最优的折中方案再行动。'},
+        {k:'c',t:'默默执行自己认为对的方向，让最终结果说话。'},
+        {k:'d',t:'先照顾情绪最低落的那一方，稳住团队状态再说。'}]},
+  {id:'q8',tx:'你的日常时间管理风格更接近？',
+   ops:[{k:'a',t:'同时推进多件事，靠信息密度保持高效率。'},
+        {k:'b',t:'一次只做一件事，追求每项任务的极致完成度。'},
+        {k:'c',t:'抓住最高优先级目标，其他事项暂时搁置。'},
+        {k:'d',t:'根据他人需求灵活调整自己的节奏，配合为先。'}]},
+  {id:'q9',tx:'在一次重要的团队失败后，你的第一反应是？',
+   ops:[{k:'a',t:'独自消化情绪，绝不让别人看到自己的脆弱。'},
+        {k:'b',t:'立刻复盘分析失误节点，寻找下次的机会。'},
+        {k:'c',t:'主动安慰情绪最低落的队友，先稳定团队。'},
+        {k:'d',t:'反复回溯自己每一个操作细节，追求找到精确原因。'}]},
+  {id:'q10',tx:'你如何看待"孤独"这件事？',
+   ops:[{k:'a',t:'享受独处，孤独是深度思考与自我打磨的温床。'},
+        {k:'b',t:'孤独时会主动找人连接，情感流动对我很重要。'},
+        {k:'c',t:'利用独处时间规划战略，独处是蓄力的过程。'},
+        {k:'d',t:'孤独令我无聊，我在热闹氛围中更有创造力。'}]},
+  {id:'q11',tx:'你负责一个项目时，最在意什么？',
+   ops:[{k:'a',t:'进度和效率，在最短时间内取得决定性突破。'},
+        {k:'b',t:'每个细节的精准度，不能有任何遗漏或差错。'},
+        {k:'c',t:'团队成员的状态与协作氛围是否健康。'},
+        {k:'d',t:'信息整合与全局战略的连贯性和完整性。'}]},
+  {id:'q12',tx:'你在高压状态下的表现通常是？',
+   ops:[{k:'a',t:'压力越大越清醒，能在混乱中看到更多机会。'},
+        {k:'b',t:'用数据和逻辑分析平复情绪，理性先行。'},
+        {k:'c',t:'主动向外释放，找人倾诉或寻求支持。'},
+        {k:'d',t:'关上门独自扛，绝不把脆弱暴露给他人。'}]},
+  {id:'q13',tx:'与朋友发生矛盾时，你通常怎么处理？',
+   ops:[{k:'a',t:'直接当面把话说清楚，不拖不绕不留隔阂。'},
+        {k:'b',t:'先给自己几天冷静期，再找合适时机沟通。'},
+        {k:'c',t:'主动递台阶，维护关系的优先级高于争对错。'},
+        {k:'d',t:'用行动而非语言化解，比如请吃饭或送礼物。'}]},
+  {id:'q14',tx:'你对"胜利"的定义是？',
+   ops:[{k:'a',t:'击败强敌，完成所有人都认为不可能的事。'},
+        {k:'b',t:'团队整体的表现超出所有人的预期。'},
+        {k:'c',t:'在绝对劣势中坚持到最后，实现惊天大逆转。'},
+        {k:'d',t:'用最少的资源，实现最大化的长期收益。'}]},
+  {id:'q15',tx:'面对突如其来的混乱局面，你的本能反应是？',
+   ops:[{k:'a',t:'迅速找到最具决定性的突破节点并果断切入。'},
+        {k:'b',t:'稳住自己的节奏，不被外部的混乱所干扰。'},
+        {k:'c',t:'第一时间判断哪个队友最需要帮助并赶去支援。'},
+        {k:'d',t:'冷静观察，记录信息，等待一击制胜的最佳时机。'}]},
+  {id:'q16',tx:'你的消费观更接近哪种？',
+   ops:[{k:'a',t:'愿意为效率工具和能力提升付费，投资自己最划算。'},
+        {k:'b',t:'追求精致体验，愿意为美感和品质支付溢价。'},
+        {k:'c',t:'极度理性，每一笔支出都要精打细算，没有浪费。'},
+        {k:'d',t:'愿意为别人花钱，送礼比买给自己更有成就感。'}]},
+  {id:'q17',tx:'在竞争中，你最无法忍受的是？',
+   ops:[{k:'a',t:'因为队友粗心大意的失误，导致整体功亏一篑。'},
+        {k:'b',t:'自己的正确战略判断没有被团队采纳和执行。'},
+        {k:'c',t:'在最后关头因为资源匮乏而无力回天。'},
+        {k:'d',t:'队友在低谷期相互指责，而非携手共渡难关。'}]},
+  {id:'q18',tx:'你理想中的工作或学习环境是？',
+   ops:[{k:'a',t:'高度自由，可以独立决策、独立执行，不受束缚。'},
+        {k:'b',t:'充满刺激和变化，每天都面对新挑战和新信息。'},
+        {k:'c',t:'有清晰的成长路径，能看到努力积累的长期回报。'},
+        {k:'d',t:'氛围温暖，团队关系和情感连接比结果更重要。'}]},
+  {id:'q19',tx:'在社交场合中，你倾向于？',
+   ops:[{k:'a',t:'主动出击，快速认识新朋友，不断扩大社交圈。'},
+        {k:'b',t:'深耕现有小圈子里的情感联结，宁缺毋滥。'},
+        {k:'c',t:'全场观察，锁定最值得深交的那个人重点经营。'},
+        {k:'d',t:'享受人群的热闹气氛，但内心更珍视独处的宁静。'}]},
+  {id:'q20',tx:'你认为自己最核心的人格特质是？',
+   ops:[{k:'a',t:'永不放弃，哪怕独自面对最艰难的绝境也绝不认输。'},
+        {k:'b',t:'洞察力，总能透过现象看穿问题的本质和规律。'},
+        {k:'c',t:'同理心，真心关心每一个身边人的感受与需要。'},
+        {k:'d',t:'耐心，能够为了长远目标守候漫长的等待时机。'}]}
 ];
+
 const W={
   q1:{a:{J:2,C:3},b:{M:1,R:4},c:{C:1,G:4},d:{J:3,M:2}},
   q2:{a:{M:1,R:4},b:{C:4,R:1},c:{M:3,G:2},d:{J:4,C:1}},
   q3:{a:{C:5},b:{J:2,M:3},c:{R:5},d:{G:5}},
   q4:{a:{M:4,G:1},b:{J:3,C:2},c:{J:1,M:1,C:1,G:1,R:1},d:{J:4,R:1}},
   q5:{a:{G:3,J:2},b:{M:3,R:2},c:{C:2,R:3},d:{J:3,C:2}},
-  q6:{a:{J:5},b:{R:5},c:{C:5},d:{M:5}}
+  q6:{a:{J:5},b:{R:5},c:{C:5},d:{M:5}},
+  q7:{a:{J:2,C:3},b:{M:3,R:2},c:{C:3,G:2},d:{R:5}},
+  q8:{a:{M:4},b:{G:3,C:2},c:{J:3,M:1},d:{R:4}},
+  q9:{a:{C:3,G:2},b:{J:3,M:2},c:{R:5},d:{G:4}},
+  q10:{a:{C:4,G:2},b:{R:3,M:2},c:{J:4},d:{M:3}},
+  q11:{a:{J:3},b:{G:4,C:1},c:{R:4,M:1},d:{M:4}},
+  q12:{a:{J:3,C:2},b:{G:3},c:{R:3,M:2},d:{C:4}},
+  q13:{a:{J:2,C:3},b:{G:3,C:2},c:{R:4},d:{C:2,G:2}},
+  q14:{a:{J:4},b:{M:3,R:2},c:{C:4},d:{G:4}},
+  q15:{a:{J:4,M:1},b:{C:4},c:{R:5},d:{G:4}},
+  q16:{a:{J:2,G:2},b:{M:4},c:{G:3,C:2},d:{R:4}},
+  q17:{a:{C:3,G:2},b:{J:3,M:2},c:{G:4},d:{R:4}},
+  q18:{a:{J:3,C:2},b:{J:2,M:2},c:{G:4},d:{R:4}},
+  q19:{a:{J:2,M:3},b:{R:3,C:2},c:{M:3,J:2},d:{C:3,G:2}},
+  q20:{a:{C:5},b:{M:3,J:2},c:{R:5},d:{G:5}}
 };
 
-/* ─── STATE ─── */
-let curQ=0,sc={J:0,M:0,C:0,G:0,R:0},myRes=null,myPred=null,shareUrl='';
+/* ═══════════════════════════════════
+   STATE
+═══════════════════════════════════ */
+let curQ=0,sc={J:0,M:0,C:0,G:0,R:0};
+let myRes=null,myPred=null,myHero=null,shareUrl='';
 
-/* ─── NAV ─── */
+/* ═══════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════ */
 function go(id){
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
   document.getElementById(id).classList.add('on');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* ─── PARTICLES ─── */
+/* ═══════════════════════════════════
+   PARTICLES
+═══════════════════════════════════ */
 (function(){
   const cv=document.getElementById('bgc'),cx=cv.getContext('2d');
   function rsz(){cv.width=innerWidth;cv.height=innerHeight}rsz();
@@ -376,9 +523,11 @@ function go(id){
   })();
 })();
 
-/* ─── ROLE CARDS ─── */
+/* ═══════════════════════════════════
+   ROLE CARDS
+═══════════════════════════════════ */
 function buildRoles(){
-  document.getElementById('rgrid').innerHTML=Object.values(R).map(r=>`
+  document.getElementById('rgrid').innerHTML=Object.values(ROLES).map(r=>`
     <div class="rcd" style="--rc:${r.c}">
       <span class="rico">${r.icon}</span>
       <div class="rnm">${r.name}</div><div class="ren">${r.en}</div>
@@ -387,7 +536,9 @@ function buildRoles(){
     </div>`).join('');
 }
 
-/* ─── QUIZ ─── */
+/* ═══════════════════════════════════
+   QUIZ
+═══════════════════════════════════ */
 function initQ(){curQ=0;sc={J:0,M:0,C:0,G:0,R:0};renderQ();}
 function renderQ(){
   const q=QS[curQ],pct=Math.round(curQ/QS.length*100);
@@ -424,15 +575,15 @@ function pick(qid,k){
   },300);
 }
 
-/* ─── RESULTS ─── */
+/* ═══════════════════════════════════
+   RESULTS
+═══════════════════════════════════ */
 function showRes(){
   const sorted=Object.entries(sc).sort((a,b)=>b[1]-a[1]);
   const pid=sorted[0][0],sid=sorted[1][0];
   myRes=pid;
-  const P=R[pid],S=R[sid];
-  const mx=sorted[0][1]||1;
+  const P=ROLES[pid],S=ROLES[sid];
 
-  /* primary */
   document.getElementById('prc').innerHTML=`
     <div style="background:linear-gradient(145deg,${P.c}20,${P.c}0d);border:1px solid ${P.c}88;
       border-radius:24px;padding:54px 44px;text-align:center;backdrop-filter:blur(16px);">
@@ -452,7 +603,6 @@ function showRes(){
       </div>
     </div>`;
 
-  /* secondary */
   document.getElementById('scd').innerHTML=`
     <div style="background:linear-gradient(135deg,${S.c}14,transparent);border:1px solid ${S.c}44;
       border-radius:16px;padding:28px 32px;display:flex;align-items:center;gap:22px;
@@ -465,7 +615,6 @@ function showRes(){
       </div>
     </div>`;
 
-  /* dimension bars */
   document.getElementById('dmp').innerHTML=`
     <div class="dmh">◆ 人格维度分析</div>
     ${Object.entries(P.dim).map(([k,v])=>`
@@ -476,15 +625,24 @@ function showRes(){
       </div>`).join('')}`;
 
   go('s5');
-  checkFriend();
+  checkFriendLane();
 }
 
-/* ─── FRIEND CHECK ─── */
-function getParams(){const p=new URLSearchParams(location.search);return{ref:p.get('ref'),pred:p.get('predict')};}
-function checkFriend(){
-  const{ref,pred}=getParams();
-  if(!ref||!pred||!R[ref]||!R[pred])return;
-  const SH=R[ref],PR=R[pred];
+/* ═══════════════════════════════════
+   URL PARAMS
+═══════════════════════════════════ */
+function getParams(){
+  const p=new URLSearchParams(location.search);
+  return{ref:p.get('ref'),pred:p.get('predict'),hero:p.get('hero')};
+}
+
+/* ═══════════════════════════════════
+   FRIEND LANE COMPARISON
+═══════════════════════════════════ */
+function checkFriendLane(){
+  const{ref,pred,hero}=getParams();
+  if(!ref||!pred||!ROLES[ref]||!ROLES[pred])return;
+  const SH=ROLES[ref],PR=ROLES[pred];
 
   document.getElementById('fcmp').innerHTML=`
     <div style="font-size:11px;letter-spacing:4px;color:var(--gold);margin-bottom:12px">来自好友的挑战</div>
@@ -498,38 +656,130 @@ function checkFriend(){
   if(myRes===pred){
     rw.style.cssText='background:linear-gradient(135deg,rgba(212,175,55,.18),rgba(255,170,0,.08));border:1px solid rgba(212,175,55,.5);border-radius:16px;padding:32px;text-align:center;margin-bottom:28px;animation:cin .5s ease';
     rw.innerHTML=`<span style="font-size:48px;display:block;margin-bottom:12px">🌟</span>
-      <div style="font-size:20px;font-weight:700;color:var(--gold);margin-bottom:10px">🎉 好友猜对了！你们是真正的峡谷知己！</div>
+      <div style="font-size:20px;font-weight:700;color:var(--gold);margin-bottom:10px">🎉 好友猜对了分路！</div>
       <p style="font-size:13px;color:var(--mute);line-height:1.8">
         你的好友成功预测了你的峡谷灵魂分路！<br>
-        你们已共同解锁专属称号：<strong style="color:var(--gold)">「峡谷知己」✨</strong><br>
-        截图保存这一刻，发给好友一起庆祝吧！
+        ${hero?'现在去猜猜他的<strong style="color:var(--gold)">本命英雄</strong>，达成双重挑战，解锁最高称号！':'截图保存这一刻，发给好友一起庆祝！'}
       </p>`;
     rw.classList.add('on');
-    setTimeout(confetti,400);
+    if(!hero)setTimeout(confetti,400);
   }else{
-    const MR=R[myRes];
+    const MR=ROLES[myRes];
     rw.style.cssText='background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:32px;text-align:center;margin-bottom:28px;animation:cin .5s ease';
     rw.innerHTML=`<span style="font-size:48px;display:block;margin-bottom:12px">🤔</span>
-      <div style="font-size:20px;font-weight:700;color:var(--mute);margin-bottom:10px">好友预测失误……</div>
+      <div style="font-size:20px;font-weight:700;color:var(--mute);margin-bottom:10px">好友分路预测失误……</div>
       <p style="font-size:13px;color:var(--mute);line-height:1.8">
         好友预测你是 <strong style="color:${PR.c}">${PR.name}</strong>，
         但你实际的灵魂分路是 <strong style="color:${MR.c}">${MR.icon} ${MR.name}</strong>！<br>
-        继续分享测评，深入探索彼此的峡谷灵魂～
+        ${hero?'去猜猜好友的本命英雄，还有机会扳回一城！':'继续分享测评，深入探索彼此的峡谷灵魂～'}
       </p>`;
     rw.classList.add('on');
   }
+
+  // Show hero guess button if URL contains a hero
+  if(hero){
+    document.getElementById('btn-hero-guess').style.display='inline-flex';
+  }
 }
 
-/* ─── SHARE ─── */
+/* ═══════════════════════════════════
+   HERO GRID HELPERS
+═══════════════════════════════════ */
+function renderHeroGrid(gridId,onClickFn){
+  document.getElementById(gridId).innerHTML=
+    HEROES.map(h=>`<button class="hbt" data-h="${h}" onclick="${onClickFn}('${h}')">${h}</button>`).join('');
+}
+function filterH(srcId,gridId){
+  const term=document.getElementById(srcId).value;
+  document.querySelectorAll(`#${gridId} .hbt`).forEach(b=>{
+    b.style.display=b.dataset.h.includes(term)?'':'none';
+  });
+}
+
+/* ═══════════════════════════════════
+   HERO GUESS (friend mode – s6)
+═══════════════════════════════════ */
+function initHeroGuess(){
+  renderHeroGrid('hg-grid','guessHero');
+  document.getElementById('hcrs').classList.remove('on');
+  document.getElementById('hc-card').style.display='block';
+}
+function guessHero(guessed){
+  const{hero:actual}=getParams();
+  if(!actual)return;
+
+  // Lock grid
+  document.getElementById('hc-card').style.display='none';
+
+  const rs=document.getElementById('hcrs');
+  const correct=guessed.trim()===decodeURIComponent(actual).trim();
+
+  if(correct){
+    const{ref,pred}=getParams();
+    const laneCorrct=myRes===pred;
+    rs.style.cssText='background:linear-gradient(135deg,rgba(212,175,55,.2),rgba(255,170,0,.08));border:1px solid rgba(212,175,55,.6);border-radius:14px;padding:28px;text-align:center;margin-bottom:20px;display:block;animation:cin .4s ease';
+    rs.innerHTML=`
+      <div style="font-size:52px;margin-bottom:12px">${laneCorrct?'🏆':'🎯'}</div>
+      <div style="font-size:20px;font-weight:700;color:var(--gold);margin-bottom:10px">
+        ${laneCorrct?'🎉 双重挑战全部命中！解锁最高称号！':'🎯 本命英雄猜对了！'}
+      </div>
+      <p style="font-size:13px;color:var(--mute);line-height:1.8">
+        好友的本命英雄正是 <strong style="color:var(--gold);font-size:16px">${guessed}</strong>，你猜对了！<br>
+        ${laneCorrct
+          ?'分路 + 本命英雄双双猜中！<br>你们已共同解锁专属最高称号：<strong style="color:var(--gold)">「峡谷灵魂伴侣」✨</strong>'
+          :'本命英雄挑战成功！截图保存这一刻～'}
+      </p>`;
+    rs.classList.add('on');
+    setTimeout(confetti,300);
+  }else{
+    rs.style.cssText='background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:28px;text-align:center;margin-bottom:20px;display:block;animation:cin .4s ease';
+    rs.innerHTML=`
+      <div style="font-size:52px;margin-bottom:12px">😅</div>
+      <div style="font-size:20px;font-weight:700;color:var(--mute);margin-bottom:10px">没猜中……</div>
+      <p style="font-size:13px;color:var(--mute);line-height:1.8">
+        你猜的是 <strong style="color:#FF3B3B">${guessed}</strong>，但好友的本命英雄另有其人～<br>
+        好好研究一下再去挑战他吧！
+      </p>`;
+    rs.classList.add('on');
+  }
+}
+
+/* ═══════════════════════════════════
+   SHARE (s7)
+═══════════════════════════════════ */
 function initSh(){
-  document.getElementById('pops').innerHTML=Object.values(R).map(r=>`
+  // lane prediction buttons
+  document.getElementById('pops').innerHTML=Object.values(ROLES).map(r=>`
     <button class="pbt" data-id="${r.id}" onclick="setPred('${r.id}')"
       style="border-color:${r.c}33;color:${r.c}bb">${r.icon} ${r.name}</button>`).join('');
+  // hero grid in share section
+  renderHeroGrid('hp-grid','setHero');
+  // reset link area
+  document.getElementById('lbx').style.display='none';
+  document.getElementById('bcpy').style.display='none';
+  document.getElementById('bgen').textContent='🔗  生成专属链接';
 }
 function setPred(id){
   myPred=id;
   document.querySelectorAll('.pbt').forEach(b=>b.classList.toggle('on',b.dataset.id===id));
   document.getElementById('pblk').classList.remove('err');
+}
+function setHero(h){
+  myHero=h;
+  document.querySelectorAll('#hp-grid .hbt').forEach(b=>b.classList.toggle('on',b.dataset.h===h));
+  const row=document.getElementById('hp-sel');
+  document.getElementById('hp-sel-name').textContent=h;
+  row.style.display='block';
+  // hide search & grid after selection
+  document.getElementById('hp-srch').style.display='none';
+  document.getElementById('hp-grid').style.display='none';
+}
+function clearHero(){
+  myHero=null;
+  document.querySelectorAll('#hp-grid .hbt').forEach(b=>b.classList.remove('on'));
+  document.getElementById('hp-sel').style.display='none';
+  document.getElementById('hp-srch').style.display='block';
+  document.getElementById('hp-grid').style.display='flex';
 }
 function genLnk(){
   if(!myPred){
@@ -539,7 +789,8 @@ function genLnk(){
     return;
   }
   const base=location.href.split('?')[0];
-  shareUrl=`${base}?ref=${myRes}&predict=${myPred}`;
+  const heroParam=myHero?`&hero=${encodeURIComponent(myHero)}`:'';
+  shareUrl=`${base}?ref=${myRes}&predict=${myPred}${heroParam}`;
   const lb=document.getElementById('lbx');
   lb.textContent=shareUrl;lb.style.display='block';
   document.getElementById('bcpy').style.display='inline-flex';
@@ -554,12 +805,14 @@ function cpyLnk(){
   });
 }
 
-/* ─── CONFETTI ─── */
+/* ═══════════════════════════════════
+   CONFETTI
+═══════════════════════════════════ */
 function confetti(){
   const cv=document.getElementById('cfc'),cx=cv.getContext('2d');
   cv.width=innerWidth;cv.height=innerHeight;cv.style.display='block';
   const C=['#D4AF37','#FFE566','#FF3B3B','#BB44FF','#33CC77','#FFAA00','#3388FF','#fff'];
-  const ps=Array.from({length:180},()=>({
+  const ps=Array.from({length:200},()=>({
     x:Math.random()*cv.width,y:-20-Math.random()*200,
     sz:Math.random()*9+4,col:C[Math.floor(Math.random()*C.length)],
     sp:Math.random()*4+2,dr:(Math.random()-.5)*2.5,
@@ -575,22 +828,34 @@ function confetti(){
       p.rect?cx.fillRect(-p.sz/2,-p.sz/4,p.sz,p.sz/2):(cx.beginPath(),cx.arc(0,0,p.sz/2,0,Math.PI*2),cx.fill());
       cx.restore();
     });
-    if(++f<220)requestAnimationFrame(draw);else cv.style.display='none';
+    if(++f<240)requestAnimationFrame(draw);else cv.style.display='none';
   })();
 }
 
-/* ─── RESTART ─── */
-function restart(){myRes=null;myPred=null;shareUrl='';sc={J:0,M:0,C:0,G:0,R:0};go('s3');initQ();}
+/* ═══════════════════════════════════
+   RESTART
+═══════════════════════════════════ */
+function restart(){
+  myRes=null;myPred=null;myHero=null;shareUrl='';
+  sc={J:0,M:0,C:0,G:0,R:0};
+  document.getElementById('fcmp').classList.remove('on');
+  document.getElementById('rwp').classList.remove('on');
+  document.getElementById('btn-hero-guess').style.display='none';
+  go('s3');initQ();
+}
 
-/* ─── INIT ─── */
+/* ═══════════════════════════════════
+   INIT
+═══════════════════════════════════ */
 document.addEventListener('DOMContentLoaded',()=>{
   buildRoles();
-  const{ref,pred}=getParams();
-  if(ref&&pred&&R[ref]&&R[pred]){
-    const SH=R[ref],PR=R[pred];
+  const{ref,pred,hero}=getParams();
+  if(ref&&pred&&ROLES[ref]&&ROLES[pred]){
+    const SH=ROLES[ref],PR=ROLES[pred];
     document.getElementById('hsub').innerHTML=`
       你的好友（<strong style="color:${SH.c}">${SH.icon} ${SH.name}位</strong> 玩家）<br>
       预测你是 <strong style="color:${PR.c}">${PR.icon} ${PR.name}</strong> 玩家<br>
+      ${hero?'还设置了一个<strong style="color:var(--gold)">本命英雄谜题</strong>等你来猜！<br>':'' }
       完成测评，揭晓答案！`;
   }
 });
