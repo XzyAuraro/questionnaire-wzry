@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>峡谷人格测评 · 王者荣耀</title>
+<!-- OG / Social sharing meta -->
+<meta property="og:title" content="峡谷人格测评 · 王者荣耀">
+<meta property="og:description" content="二十道问题，揭示你在峡谷中的真实人格投影。发现你的分路归属、英雄画像与隐藏特质！">
+<meta property="og:type" content="website">
+<meta property="og:url" content="http://wzry.xuziyu.my/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="峡谷人格测评 · 王者荣耀">
+<meta name="twitter:description" content="二十道问题，揭示你在峡谷中的真实人格投影。发现你的分路归属！">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
@@ -81,6 +89,8 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
 .qop:hover{background:rgba(212,175,55,.07);border-color:rgba(212,175,55,.35);color:var(--txt);transform:translateX(4px)}
 .qop:hover .olk{background:var(--gold);color:#000;border-color:var(--gold)}
 .olk{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;min-width:28px;border:1px solid var(--gold-d);border-radius:7px;font-size:12px;font-weight:700;color:var(--gold);transition:all .22s}
+.qback{display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:transparent;color:var(--mute);font-size:13px;border:1px solid rgba(255,255,255,.08);border-radius:20px;cursor:pointer;transition:all .2s;font-family:inherit;margin-top:16px}
+.qback:hover{color:var(--gold);border-color:var(--gold-d)}
 
 /* LOADING */
 #s4{gap:24px;text-align:center}
@@ -144,6 +154,37 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
 .lbx{background:rgba(0,0,0,.4);border:1px solid var(--gold-d);border-radius:10px;padding:13px 18px;font-size:12px;color:var(--gold);word-break:break-all;text-align:left;font-family:monospace;margin-bottom:14px;display:none;line-height:1.6}
 .shbs{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
+/* VOTING (s8) */
+#s8{background:radial-gradient(ellipse at 50% 30%,rgba(212,175,55,.1) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(187,68,255,.07) 0%,transparent 50%);justify-content:flex-start;padding-top:70px;padding-bottom:80px}
+.vin{max-width:1000px;width:100%;margin:0 auto}
+.vh{text-align:center;margin-bottom:40px}
+.vtabs{display:flex;gap:12px;justify-content:center;margin-bottom:32px;flex-wrap:wrap}
+.vtab{padding:10px 28px;border-radius:50px;border:1px solid var(--gold-d);background:transparent;color:var(--mute);font-size:13px;cursor:pointer;transition:all .25s;font-family:inherit}
+.vtab.on{background:var(--gold);border-color:var(--gold);color:#000;font-weight:700}
+.vpanel{display:none}
+.vpanel.on{display:block}
+.vcd{background:var(--card);border:1px solid var(--gold-d);border-radius:20px;padding:36px;backdrop-filter:blur(20px);margin-bottom:24px;animation:cin .5s ease}
+@media(max-width:500px){.vcd{padding:22px 16px}}
+.vsrch{width:100%;padding:10px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;color:var(--txt);font-size:13px;margin-bottom:14px;font-family:inherit;outline:none}
+.vsrch:focus{border-color:var(--gold-d)}
+.vgrid{display:flex;flex-wrap:wrap;gap:8px;max-height:240px;overflow-y:auto;padding:4px 2px;margin-bottom:16px}
+.vgrid::-webkit-scrollbar{width:4px}
+.vgrid::-webkit-scrollbar-thumb{background:var(--gold-d);border-radius:2px}
+.vbt{padding:8px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:var(--mute);font-size:13px;cursor:pointer;transition:all .2s;font-family:inherit}
+.vbt:hover:not(.dis){border-color:var(--gold-d);color:var(--txt)}
+.vbt.on{background:var(--gold);border-color:var(--gold);color:#000;font-weight:700}
+.vbt.dis{opacity:.35;cursor:not-allowed}
+.vsel-info{font-size:13px;color:var(--gold);margin-bottom:14px;min-height:20px}
+.vbar-list{display:flex;flex-direction:column;gap:11px}
+.vbar-row{display:flex;align-items:center;gap:10px}
+.vbar-rank{font-size:13px;font-weight:700;color:var(--gold);width:22px;text-align:right;flex-shrink:0}
+.vbar-name{font-size:13px;color:var(--txt);width:70px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vbar-name.voted{color:var(--gold);font-weight:700}
+.vbar-track{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
+.vbar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold),#FF9900);transition:width 1.2s ease}
+.vbar-fill.voted{background:linear-gradient(90deg,#33CC77,#00BB66)}
+.vbar-cnt{font-size:12px;color:var(--mute);width:52px;text-align:right;flex-shrink:0}
+
 /* ANIMATIONS */
 @keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @keyframes sup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
@@ -171,7 +212,10 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
     <div><div class="snum">5</div><div class="slbl">条分路</div></div>
     <div><div class="snum">100+</div><div class="slbl">位英雄匹配</div></div>
   </div>
-  <button class="bg" onclick="go('s2')">⚔️&nbsp; 进入峡谷</button>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
+    <button class="bg" onclick="go('s2')">⚔️&nbsp; 进入峡谷</button>
+    <button class="bo" onclick="go('s8');initVoting()">🏆&nbsp; 英雄人气榜</button>
+  </div>
 </section>
 
 <!-- §2 INTRO -->
@@ -238,6 +282,8 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
     <div class="ract">
       <button class="bg" id="btn-hero-guess" style="display:none" onclick="go('s6');initHeroGuess()">🎯&nbsp; 猜猜好友的本命英雄</button>
       <button class="bg" onclick="go('s7');initSh()">🔗&nbsp; 分享给好友</button>
+      <button class="bo" onclick="generateShareImg()">📸&nbsp; 保存分享图</button>
+      <button class="bo" onclick="go('s8');initVoting()">🏆&nbsp; 英雄人气榜</button>
       <button class="bo" onclick="restart()">↺&nbsp; 重新测评</button>
     </div>
   </div>
@@ -251,17 +297,12 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
       <h2 class="stitle">猜猜好友的本命英雄</h2>
       <p class="sdesc" style="margin:0 auto">你的好友隐藏了他的本命英雄，猜对了将解锁双重称号 <strong style="color:var(--gold)">「峡谷灵魂伴侣」</strong>！</p>
     </div>
-
-    <!-- Result panel, shown after guessing -->
     <div id="hcrs" class="hcrs"></div>
-
-    <!-- Guess card -->
     <div class="hccd" id="hc-card">
       <div class="pbl">🎯 从下方选择你认为的答案</div>
       <input class="hsrch" id="hg-srch" placeholder="搜索英雄名……" oninput="filterH('hg-srch','hg-grid')">
       <div class="hgrid" id="hg-grid"></div>
     </div>
-
     <div style="text-align:center;margin-top:16px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
       <button class="bo" onclick="go('s7');initSh()">跳过 → 分享我的结果</button>
       <button class="bo" onclick="go('s5')">← 返回结果</button>
@@ -285,8 +326,6 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
         ② <strong style="color:var(--gold)">预测好友的分路归属</strong><br>
         两项都猜对，你们将共同解锁 <strong style="color:var(--gold)">「峡谷灵魂伴侣」✨</strong> 最高称号！
       </p>
-
-      <!-- Hero selection block -->
       <div class="pblk" style="margin-bottom:22px">
         <div class="pbl">🔥 我的本命英雄是…（让好友来猜！可选）</div>
         <input class="hsrch" id="hp-srch" placeholder="搜索英雄名……" oninput="filterH('hp-srch','hp-grid')">
@@ -296,13 +335,10 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
           &nbsp;<button class="bo" style="padding:3px 10px;font-size:11px" onclick="clearHero()">更改</button>
         </div>
       </div>
-
-      <!-- Lane prediction block -->
       <div class="pblk" id="pblk">
         <div class="pbl">⭐ 我预测我的好友最可能是……</div>
         <div class="pops" id="pops"></div>
       </div>
-
       <div class="lbx" id="lbx"></div>
       <div class="shbs">
         <button class="bg" id="bgen" onclick="genLnk()">🔗&nbsp; 生成专属链接</button>
@@ -311,6 +347,58 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
     </div>
     <div style="text-align:center;margin-top:16px">
       <button class="bo" onclick="go('s5')">← 返回我的结果</button>
+    </div>
+  </div>
+</section>
+
+<!-- §8 VOTING -->
+<section id="s8" class="sec">
+  <div class="vin">
+    <div class="vh">
+      <div class="tag">HERO POPULARITY · 英雄人气</div>
+      <h2 class="stitle">峡谷英雄人气榜</h2>
+      <p class="sdesc" style="margin:0 auto">每位玩家拥有 <strong style="color:var(--gold)">3票</strong>，为你心目中最爱的峡谷英雄投票！</p>
+    </div>
+    <div class="vtabs">
+      <button class="vtab on" id="vtab-vote" onclick="switchVTab('vote')">🗳️ 我要投票</button>
+      <button class="vtab" id="vtab-rank" onclick="switchVTab('rank')">📊 人气排行</button>
+    </div>
+
+    <!-- VOTE PANEL -->
+    <div id="vp-vote" class="vpanel on">
+      <div class="vcd">
+        <div id="v-voted-banner" style="display:none;text-align:center;padding:16px 0 24px">
+          <div style="font-size:44px;margin-bottom:12px">✅</div>
+          <div style="font-size:18px;font-weight:700;color:var(--gold);margin-bottom:8px">你已完成投票！</div>
+          <div style="font-size:13px;color:var(--mute);margin-bottom:4px">已投票给：<span id="v-voted-names" style="color:var(--gold)"></span></div>
+          <div style="font-size:12px;color:var(--mute);margin-bottom:20px">感谢你参与人气投票 · 查看右侧排行榜了解实时结果</div>
+          <button class="bo" style="font-size:12px;padding:8px 20px" onclick="resetVote()">重新选择英雄</button>
+        </div>
+        <div id="v-vote-form">
+          <div class="vsel-info" id="vsel-info">请选择最多 3 位英雄（已选 0 / 3）</div>
+          <input class="vsrch" id="vsrch" placeholder="搜索英雄名……" oninput="filterVGrid()">
+          <div class="vgrid" id="vgrid"></div>
+          <div style="text-align:center;margin-top:8px">
+            <button class="bg" onclick="submitVote()">🗳️&nbsp; 确认投票</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RANK PANEL -->
+    <div id="vp-rank" class="vpanel">
+      <div class="vcd">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:10px">
+          <div style="font-size:11px;letter-spacing:3px;color:var(--gold)">◆ 英雄人气实时排行</div>
+          <div style="font-size:12px;color:var(--mute)" id="vtotal-info"></div>
+        </div>
+        <div class="vbar-list" id="vbar-list"></div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="bo" onclick="go('s1')">← 返回首页</button>
+      <button class="bo" id="vback-res" style="display:none" onclick="go('s5')">← 返回我的结果</button>
     </div>
   </div>
 </section>
@@ -358,6 +446,25 @@ const HEROES=[
   '上官婉儿','露娜','元歌','庄周','牛魔','碎月','西施','哪吒','钟无艳',
   '刘邦','武则天','扁鹊','司马懿','姜子牙','白起','盘古','孙策','钟馗'
 ];
+
+/* Voting seed data – simulates accumulated historical votes */
+const VSEED={
+  '韩信':2341,'李白':1987,'孙悟空':1654,'橘右京':1423,'兰陵王':1356,
+  '云中君':1234,'百里玄策':987,'娜可露露':923,'镜':867,
+  '貂蝉':1789,'诸葛亮':1567,'王昭君':1345,'芈月':1123,'嫦娥':987,
+  '不知火舞':876,'张良':834,'女娲':756,'杨玉环':698,'上官婉儿':654,
+  '露娜':623,'元歌':589,'西施':534,'庄周':467,
+  '铠':1456,'吕布':1234,'老夫子':789,'夏侯惇':745,'廉颇':634,
+  '达摩':612,'亚瑟':1123,'典韦':834,'曹操':956,'项羽':876,
+  '钟无艳':534,'武则天':423,'刘邦':367,
+  '公孙离':1678,'孙尚香':1423,'马可波罗':1567,'虞姬':1234,'狄仁杰':987,
+  '后羿':876,'黄忠':623,'伽罗':1456,'成吉思汗':734,
+  '大乔':1234,'蔡文姬':1123,'鬼谷子':956,'孙膑':834,'明世隐':612,
+  '瑶':1345,'梦奇':789,'东皇太一':656,'鲁班七号':1234,
+  '赵云':1567,'关羽':1234,'张飞':945,'花木兰':1123,'雅典娜':867,
+  '宫本武藏':934,'哪吒':1123,'碎月':534,'牛魔':445,
+  '扁鹊':423,'司马懿':678,'姜子牙':567,'白起':745,'盘古':634,'孙策':823,'钟馗':512
+};
 
 const QS=[
   {id:'q1',tx:'当你在职场或学校面对一个从未接触过的艰巨任务时，你的第一反应是？',
@@ -490,6 +597,8 @@ const W={
 ═══════════════════════════════════ */
 let curQ=0,sc={J:0,M:0,C:0,G:0,R:0};
 let myRes=null,myPred=null,myHero=null,shareUrl='';
+let qHistory=[]; // [{qid, k, w}] for back button
+let vSelected=[]; // currently selected heroes for voting
 
 /* ═══════════════════════════════════
    NAVIGATION
@@ -539,7 +648,7 @@ function buildRoles(){
 /* ═══════════════════════════════════
    QUIZ
 ═══════════════════════════════════ */
-function initQ(){curQ=0;sc={J:0,M:0,C:0,G:0,R:0};renderQ();}
+function initQ(){curQ=0;sc={J:0,M:0,C:0,G:0,R:0};qHistory=[];renderQ();}
 function renderQ(){
   const q=QS[curQ],pct=Math.round(curQ/QS.length*100);
   document.getElementById('qpf').style.width=pct+'%';
@@ -553,11 +662,13 @@ function renderQ(){
           <span class="olk">${o.k.toUpperCase()}</span><span>${o.t}</span>
         </button>`).join('')}
       </div>
+      ${curQ>0?'<div style="text-align:center"><button class="qback" onclick="goBack()">← 返回上一题</button></div>':''}
     </div>`;
 }
 function pick(qid,k){
-  const w=W[qid][k];
-  if(w)Object.entries(w).forEach(([r,v])=>sc[r]+=v);
+  const w=W[qid]?.[k]||{};
+  qHistory.push({qid,k,w});
+  Object.entries(w).forEach(([r,v])=>sc[r]+=v);
   const cd=document.querySelector('.qcd');
   cd.style.transition='opacity .28s,transform .28s';
   cd.style.opacity='0';cd.style.transform='translateX(-24px)';
@@ -573,6 +684,22 @@ function pick(qid,k){
       go('s4');setTimeout(showRes,1800);
     }
   },300);
+}
+function goBack(){
+  if(qHistory.length===0)return;
+  const last=qHistory.pop();
+  Object.entries(last.w).forEach(([r,v])=>sc[r]-=v);
+  curQ--;
+  const cd=document.querySelector('.qcd');
+  if(cd){
+    cd.style.transition='opacity .2s,transform .2s';
+    cd.style.opacity='0';cd.style.transform='translateX(24px)';
+  }
+  setTimeout(()=>{
+    renderQ();
+    document.getElementById('qpf').style.width=Math.round(curQ/QS.length*100)+'%';
+    document.getElementById('qptx').textContent=`${curQ} / ${QS.length}`;
+  },220);
 }
 
 /* ═══════════════════════════════════
@@ -623,6 +750,9 @@ function showRes(){
         <div class="dmt"><div class="dmf" style="background:linear-gradient(90deg,${P.c}88,${P.c});width:${v}%"></div></div>
         <span class="dmp2" style="color:${P.c}">${v}%</span>
       </div>`).join('')}`;
+
+  // Show back-to-results button in voting page
+  document.getElementById('vback-res').style.display='inline-flex';
 
   go('s5');
   checkFriendLane();
@@ -676,7 +806,6 @@ function checkFriendLane(){
     rw.classList.add('on');
   }
 
-  // Show hero guess button if URL contains a hero
   if(hero){
     document.getElementById('btn-hero-guess').style.display='inline-flex';
   }
@@ -707,13 +836,9 @@ function initHeroGuess(){
 function guessHero(guessed){
   const{hero:actual}=getParams();
   if(!actual)return;
-
-  // Lock grid
   document.getElementById('hc-card').style.display='none';
-
   const rs=document.getElementById('hcrs');
   const correct=guessed.trim()===decodeURIComponent(actual).trim();
-
   if(correct){
     const{ref,pred}=getParams();
     const laneCorrct=myRes===pred;
@@ -748,13 +873,10 @@ function guessHero(guessed){
    SHARE (s7)
 ═══════════════════════════════════ */
 function initSh(){
-  // lane prediction buttons
   document.getElementById('pops').innerHTML=Object.values(ROLES).map(r=>`
     <button class="pbt" data-id="${r.id}" onclick="setPred('${r.id}')"
       style="border-color:${r.c}33;color:${r.c}bb">${r.icon} ${r.name}</button>`).join('');
-  // hero grid in share section
   renderHeroGrid('hp-grid','setHero');
-  // reset link area
   document.getElementById('lbx').style.display='none';
   document.getElementById('bcpy').style.display='none';
   document.getElementById('bgen').textContent='🔗  生成专属链接';
@@ -770,7 +892,6 @@ function setHero(h){
   const row=document.getElementById('hp-sel');
   document.getElementById('hp-sel-name').textContent=h;
   row.style.display='block';
-  // hide search & grid after selection
   document.getElementById('hp-srch').style.display='none';
   document.getElementById('hp-grid').style.display='none';
 }
@@ -806,6 +927,229 @@ function cpyLnk(){
 }
 
 /* ═══════════════════════════════════
+   SHARE IMAGE GENERATION (#2)
+═══════════════════════════════════ */
+function generateShareImg(){
+  if(!myRes){alert('请先完成测评再保存分享图');return;}
+  const P=ROLES[myRes];
+  const W=800,H=450;
+  const cv=document.createElement('canvas');
+  cv.width=W;cv.height=H;
+  const cx=cv.getContext('2d');
+
+  // Dark background
+  cx.fillStyle='#07070F';
+  cx.fillRect(0,0,W,H);
+
+  // Radial glow center
+  const rg=cx.createRadialGradient(W/2,H*0.45,20,W/2,H*0.45,260);
+  rg.addColorStop(0,P.c+'33');
+  rg.addColorStop(1,'transparent');
+  cx.fillStyle=rg;
+  cx.fillRect(0,0,W,H);
+
+  // Top color strip
+  const tg=cx.createLinearGradient(0,0,W,0);
+  tg.addColorStop(0,P.c+'00');
+  tg.addColorStop(0.5,P.c+'cc');
+  tg.addColorStop(1,P.c+'00');
+  cx.fillStyle=tg;
+  cx.fillRect(0,0,W,3);
+
+  // Bottom strip
+  cx.fillStyle=tg;
+  cx.fillRect(0,H-3,W,3);
+
+  // Top label: site name
+  cx.font='12px sans-serif';
+  cx.fillStyle='rgba(212,175,55,0.5)';
+  cx.textAlign='center';
+  cx.fillText('王者荣耀 · 峡谷人格研究所', W/2, 36);
+
+  // Role EN label
+  cx.font='bold 13px sans-serif';
+  cx.fillStyle=P.c+'99';
+  cx.fillText(P.en, W/2, 88);
+
+  // Icon (emoji)
+  cx.font='72px serif';
+  cx.fillText(P.icon, W/2, 176);
+
+  // Title
+  cx.font='bold 52px serif';
+  cx.fillStyle=P.c;
+  cx.fillText(P.title, W/2, 258);
+
+  // Sub
+  cx.font='22px serif';
+  cx.fillStyle='#EDE8D8cc';
+  cx.fillText(P.sub, W/2, 300);
+
+  // Traits
+  cx.font='14px sans-serif';
+  cx.fillStyle='#8A8AA8';
+  cx.fillText(P.shr, W/2, 342);
+
+  // Heroes
+  cx.font='13px sans-serif';
+  cx.fillStyle=P.c+'aa';
+  cx.fillText('代表英雄：' + P.heroes.join(' · '), W/2, 376);
+
+  // Bottom URL
+  cx.font='12px sans-serif';
+  cx.fillStyle='rgba(212,175,55,0.4)';
+  cx.fillText('wzry.xuziyu.my', W/2, H-20);
+
+  cv.toBlob(blob=>{
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.download=`峡谷灵魂档案_${P.name}.png`;
+    a.href=url;
+    a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });
+}
+
+/* ═══════════════════════════════════
+   VOTING (#10)
+═══════════════════════════════════ */
+const VKEY='wzry_votes_v1';
+const VCKEY='wzry_voted_v1';
+
+function getVotes(){
+  // Merge seed data + user-contributed delta
+  const delta=JSON.parse(localStorage.getItem(VKEY)||'{}');
+  const votes={...VSEED};
+  Object.entries(delta).forEach(([h,v])=>{votes[h]=(votes[h]||0)+v;});
+  return votes;
+}
+
+function initVoting(){
+  vSelected=[];
+  const voted=JSON.parse(localStorage.getItem(VCKEY)||'null');
+  if(voted){
+    showVotedState(voted);
+  }else{
+    document.getElementById('v-voted-banner').style.display='none';
+    document.getElementById('v-vote-form').style.display='block';
+    renderVGrid();
+    updateVSelInfo();
+  }
+  renderVoteResults();
+}
+
+function renderVGrid(){
+  document.getElementById('vgrid').innerHTML=HEROES.map(h=>
+    `<button class="vbt" data-h="${h}" onclick="toggleVote('${h}')">${h}</button>`
+  ).join('');
+}
+
+function filterVGrid(){
+  const term=document.getElementById('vsrch').value;
+  document.querySelectorAll('#vgrid .vbt').forEach(b=>{
+    b.style.display=b.dataset.h.includes(term)?'':'none';
+  });
+}
+
+function toggleVote(h){
+  const idx=vSelected.indexOf(h);
+  if(idx>-1){
+    vSelected.splice(idx,1);
+  }else{
+    if(vSelected.length>=3)return;
+    vSelected.push(h);
+  }
+  document.querySelectorAll('#vgrid .vbt').forEach(b=>{
+    const sel=vSelected.includes(b.dataset.h);
+    const full=vSelected.length>=3&&!sel;
+    b.classList.toggle('on',sel);
+    b.classList.toggle('dis',full);
+  });
+  updateVSelInfo();
+}
+
+function updateVSelInfo(){
+  const n=vSelected.length;
+  const el=document.getElementById('vsel-info');
+  if(n===0){
+    el.textContent='请选择最多 3 位英雄（已选 0 / 3）';
+  }else{
+    el.textContent=`已选 ${n} / 3：${vSelected.join('、')}`;
+  }
+}
+
+function submitVote(){
+  if(vSelected.length===0){
+    alert('请至少选择 1 位英雄');return;
+  }
+  // Save delta to localStorage
+  const delta=JSON.parse(localStorage.getItem(VKEY)||'{}');
+  vSelected.forEach(h=>{delta[h]=(delta[h]||0)+1;});
+  localStorage.setItem(VKEY,JSON.stringify(delta));
+  localStorage.setItem(VCKEY,JSON.stringify(vSelected));
+
+  showVotedState(vSelected);
+  renderVoteResults();
+  // Auto-switch to rank tab
+  setTimeout(()=>switchVTab('rank'),600);
+}
+
+function showVotedState(voted){
+  document.getElementById('v-voted-banner').style.display='block';
+  document.getElementById('v-vote-form').style.display='none';
+  document.getElementById('v-voted-names').textContent=voted.join('、');
+}
+
+function resetVote(){
+  // Remove user's delta contribution
+  const voted=JSON.parse(localStorage.getItem(VCKEY)||'null');
+  if(voted){
+    const delta=JSON.parse(localStorage.getItem(VKEY)||'{}');
+    voted.forEach(h=>{if(delta[h])delta[h]=Math.max(0,delta[h]-1);});
+    localStorage.setItem(VKEY,JSON.stringify(delta));
+  }
+  localStorage.removeItem(VCKEY);
+  vSelected=[];
+  document.getElementById('v-voted-banner').style.display='none';
+  document.getElementById('v-vote-form').style.display='block';
+  renderVGrid();
+  updateVSelInfo();
+  document.getElementById('vsrch').value='';
+  renderVoteResults();
+}
+
+function renderVoteResults(){
+  const votes=getVotes();
+  const voted=JSON.parse(localStorage.getItem(VCKEY)||'null')||[];
+  const sorted=Object.entries(votes).sort((a,b)=>b[1]-a[1]);
+  const top=sorted.slice(0,20);
+  const maxV=top[0]?top[0][1]:1;
+  const total=sorted.reduce((s,[,v])=>s+v,0);
+
+  document.getElementById('vtotal-info').textContent=`累计 ${total.toLocaleString()} 票`;
+
+  document.getElementById('vbar-list').innerHTML=top.map(([h,v],i)=>{
+    const pct=Math.round(v/maxV*100);
+    const isVoted=voted.includes(h);
+    const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    return `<div class="vbar-row">
+      <span class="vbar-rank">${medal||i+1}</span>
+      <span class="vbar-name${isVoted?' voted':''}">${h}${isVoted?' ✓':''}</span>
+      <div class="vbar-track"><div class="vbar-fill${isVoted?' voted':''}" style="width:${pct}%"></div></div>
+      <span class="vbar-cnt">${v.toLocaleString()}</span>
+    </div>`;
+  }).join('');
+}
+
+function switchVTab(tab){
+  document.getElementById('vtab-vote').classList.toggle('on',tab==='vote');
+  document.getElementById('vtab-rank').classList.toggle('on',tab==='rank');
+  document.getElementById('vp-vote').classList.toggle('on',tab==='vote');
+  document.getElementById('vp-rank').classList.toggle('on',tab==='rank');
+  if(tab==='rank')renderVoteResults();
+}
+
+/* ═══════════════════════════════════
    CONFETTI
 ═══════════════════════════════════ */
 function confetti(){
@@ -837,7 +1181,7 @@ function confetti(){
 ═══════════════════════════════════ */
 function restart(){
   myRes=null;myPred=null;myHero=null;shareUrl='';
-  sc={J:0,M:0,C:0,G:0,R:0};
+  sc={J:0,M:0,C:0,G:0,R:0};qHistory=[];
   document.getElementById('fcmp').classList.remove('on');
   document.getElementById('rwp').classList.remove('on');
   document.getElementById('btn-hero-guess').style.display='none';
@@ -855,7 +1199,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('hsub').innerHTML=`
       你的好友（<strong style="color:${SH.c}">${SH.icon} ${SH.name}位</strong> 玩家）<br>
       预测你是 <strong style="color:${PR.c}">${PR.icon} ${PR.name}</strong> 玩家<br>
-      ${hero?'还设置了一个<strong style="color:var(--gold)">本命英雄谜题</strong>等你来猜！<br>':'' }
+      ${hero?'还设置了一个<strong style="color:var(--gold)">本命英雄谜题</strong>等你来猜！<br>':''}
       完成测评，揭晓答案！`;
   }
 });
