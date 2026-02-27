@@ -1156,15 +1156,17 @@ function submitVote(){
   }
   const btn=document.querySelector('#vp-vote .bg');
   if(btn){btn.disabled=true;btn.textContent='提交中……';}
-  const updates={};
-  vSelected.forEach(h=>{updates[h]=firebase.database.ServerValue.increment(1);});
   // 超时兜底：15秒未响应则恢复按钮
   const vTimer=setTimeout(()=>{
     if(btn&&btn.disabled){btn.disabled=false;btn.textContent='🗳️  确认投票';}
     alert('投票请求超时，请检查网络后重试');
   },15000);
   try{
-    fbDb.ref('votes').update(updates).then(()=>{
+    // 用 transaction 写票：无论当前值是负数还是0，投票后至少为1
+    const ps=vSelected.map(h=>
+      fbDb.ref('votes/'+h).transaction(cur=>Math.max(0,cur||0)+1)
+    );
+    Promise.all(ps).then(()=>{
       clearTimeout(vTimer);
       localStorage.setItem(VCKEY,JSON.stringify(vSelected));
       localStorage.setItem('wzry_voted_fb','1');
@@ -1177,8 +1179,8 @@ function submitVote(){
     });
   }catch(e){
     clearTimeout(vTimer);
-    console.error('Firebase update 同步错误:',e);
-    alert('投票失败，英雄名含不支持的字符：'+e.message);
+    console.error('Firebase 事务错误:',e);
+    alert('投票失败：'+e.message);
     if(btn){btn.disabled=false;btn.textContent='🗳️  确认投票';}
   }
 }
@@ -1193,10 +1195,10 @@ function resetVote(){
   const voted=JSON.parse(localStorage.getItem(VCKEY)||'null');
   const inFb=localStorage.getItem('wzry_voted_fb');
   if(voted&&fbDb&&inFb){
-    // 只有本次投票确认写入了 Firebase 才执行减票，防止产生负数
-    const updates={};
-    voted.forEach(h=>{updates[h]=firebase.database.ServerValue.increment(-1);});
-    fbDb.ref('votes').update(updates);
+    // 用 transaction 扣票，确保不会低于 0
+    voted.forEach(h=>{
+      fbDb.ref('votes/'+h).transaction(cur=>Math.max(0,(cur||0)-1));
+    });
   }
   localStorage.removeItem(VCKEY);
   localStorage.removeItem('wzry_voted_fb');
