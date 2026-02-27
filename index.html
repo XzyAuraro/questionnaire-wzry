@@ -277,6 +277,7 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
       <div class="rvl">测评完成 · 峡谷档案已解锁</div>
       <h2 class="stitle">你的峡谷灵魂档案</h2>
     </div>
+    <div id="lncmp" class="fcmp"></div>
     <div id="fcmp" class="fcmp"></div>
     <div id="rwp" class="rwp"></div>
     <div id="prc" class="prcd"></div>
@@ -817,41 +818,75 @@ function getParams(){
 ═══════════════════════════════════ */
 function checkFriendLane(){
   const{ref,pred,hero}=getParams();
-  if(!ref||!pred||!ROLES[ref]||!ROLES[pred])return;
-  const SH=ROLES[ref],PR=ROLES[pred];
+  if(!ref||!ROLES[ref])return;
+  const SH=ROLES[ref];
+  // 先显示「猜猜好友分路」互动面板，猜完后再揭晓对比结果
+  const lg=document.getElementById('lncmp');
+  lg.innerHTML=`
+    <div style="font-size:11px;letter-spacing:4px;color:var(--gold);margin-bottom:12px">好友挑战 · 猜猜好友的分路</div>
+    <p style="font-size:14px;color:var(--mute);margin-bottom:16px">
+      你的好友已完成测评 🎮<br>
+      你能猜出他/她的峡谷灵魂分路吗？
+    </p>
+    <div class="pops" style="justify-content:center;margin-top:8px">${
+      Object.values(ROLES).map(r=>`
+        <button class="pbt" onclick="guessLane('${r.id}')">${r.icon} ${r.name}</button>`).join('')
+    }</div>`;
+  lg.classList.add('on');
+}
 
-  document.getElementById('fcmp').innerHTML=`
-    <div style="font-size:11px;letter-spacing:4px;color:var(--gold);margin-bottom:12px">来自好友的挑战</div>
-    <p style="font-size:15px;line-height:1.9">
-      你的好友是 <strong style="color:${SH.c}">${SH.icon} ${SH.name}位</strong> 玩家<br>
-      他/她预测你是：<strong style="color:${PR.c};font-size:20px">${PR.icon} ${PR.name}</strong>
-    </p>`;
-  document.getElementById('fcmp').classList.add('on');
-
-  const rw=document.getElementById('rwp');
-  if(myRes===pred){
-    rw.style.cssText='background:linear-gradient(135deg,rgba(212,175,55,.18),rgba(255,170,0,.08));border:1px solid rgba(212,175,55,.5);border-radius:16px;padding:32px;text-align:center;margin-bottom:28px;animation:cin .5s ease';
-    rw.innerHTML=`<span style="font-size:48px;display:block;margin-bottom:12px">🌟</span>
-      <div style="font-size:20px;font-weight:700;color:var(--gold);margin-bottom:10px">🎉 好友猜对了分路！</div>
-      <p style="font-size:13px;color:var(--mute);line-height:1.8">
-        你的好友成功预测了你的峡谷灵魂分路！<br>
-        ${hero?'现在去猜猜他的<strong style="color:var(--gold)">本命英雄</strong>，达成双重挑战，解锁最高称号！':'截图保存这一刻，发给好友一起庆祝！'}
-      </p>`;
-    rw.classList.add('on');
-    if(!hero)setTimeout(confetti,400);
+function guessLane(guessedId){
+  const{ref,pred,hero}=getParams();
+  if(!ref||!ROLES[ref])return;
+  const SH=ROLES[ref],GU=ROLES[guessedId];
+  const correct=guessedId===ref;
+  const lg=document.getElementById('lncmp');
+  if(correct){
+    lg.style.cssText='background:linear-gradient(135deg,rgba(212,175,55,.18),rgba(255,170,0,.08));border:1px solid rgba(212,175,55,.5);border-radius:16px;padding:28px 32px;text-align:center;margin-bottom:28px;animation:cin .5s ease';
+    lg.innerHTML=`<span style="font-size:48px;display:block;margin-bottom:12px">🎉</span>
+      <div style="font-size:20px;font-weight:700;color:var(--gold);margin-bottom:10px">猜对了！好友是 ${SH.icon} ${SH.name} 玩家！</div>
+      <p style="font-size:13px;color:var(--mute);line-height:1.8">真的很了解你的好友呢～</p>`;
+    setTimeout(confetti,300);
   }else{
-    const MR=ROLES[myRes];
-    rw.style.cssText='background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:32px;text-align:center;margin-bottom:28px;animation:cin .5s ease';
-    rw.innerHTML=`<span style="font-size:48px;display:block;margin-bottom:12px">🤔</span>
-      <div style="font-size:20px;font-weight:700;color:var(--mute);margin-bottom:10px">好友分路预测失误……</div>
-      <p style="font-size:13px;color:var(--mute);line-height:1.8">
-        好友预测你是 <strong style="color:${PR.c}">${PR.name}</strong>，
-        但你实际的灵魂分路是 <strong style="color:${MR.c}">${MR.icon} ${MR.name}</strong>！<br>
-        ${hero?'去猜猜好友的本命英雄，还有机会扳回一城！':'继续分享测评，深入探索彼此的峡谷灵魂～'}
-      </p>`;
-    rw.classList.add('on');
+    lg.style.cssText='background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:28px 32px;text-align:center;margin-bottom:28px;animation:cin .5s ease';
+    lg.innerHTML=`<span style="font-size:48px;display:block;margin-bottom:12px">🤔</span>
+      <div style="font-size:20px;font-weight:700;color:var(--mute);margin-bottom:10px">没猜中！好友其实是 ${SH.icon} ${SH.name} 玩家！</div>
+      <p style="font-size:13px;color:var(--mute);line-height:1.8">你猜的是 ${GU.icon} ${GU.name}，多了解好友再来挑战吧～</p>`;
   }
-
+  // 揭晓好友对你的分路预测（如果有）
+  if(pred&&ROLES[pred]){
+    const PR=ROLES[pred];
+    document.getElementById('fcmp').innerHTML=`
+      <div style="font-size:11px;letter-spacing:4px;color:var(--gold);margin-bottom:12px">来自好友的挑战</div>
+      <p style="font-size:15px;line-height:1.9">
+        你的好友是 <strong style="color:${SH.c}">${SH.icon} ${SH.name}位</strong> 玩家<br>
+        他/她预测你是：<strong style="color:${PR.c};font-size:20px">${PR.icon} ${PR.name}</strong>
+      </p>`;
+    document.getElementById('fcmp').classList.add('on');
+    const rw=document.getElementById('rwp');
+    if(myRes===pred){
+      rw.style.cssText='background:linear-gradient(135deg,rgba(212,175,55,.18),rgba(255,170,0,.08));border:1px solid rgba(212,175,55,.5);border-radius:16px;padding:32px;text-align:center;margin-bottom:28px;animation:cin .5s ease';
+      rw.innerHTML=`<span style="font-size:48px;display:block;margin-bottom:12px">🌟</span>
+        <div style="font-size:20px;font-weight:700;color:var(--gold);margin-bottom:10px">🎉 好友猜对了分路！</div>
+        <p style="font-size:13px;color:var(--mute);line-height:1.8">
+          你的好友成功预测了你的峡谷灵魂分路！<br>
+          ${hero?'现在去猜猜他的<strong style="color:var(--gold)">本命英雄</strong>，达成双重挑战，解锁最高称号！':'截图保存这一刻，发给好友一起庆祝！'}
+        </p>`;
+      rw.classList.add('on');
+      if(!hero)setTimeout(confetti,400);
+    }else{
+      const MR=ROLES[myRes];
+      rw.style.cssText='background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:32px;text-align:center;margin-bottom:28px;animation:cin .5s ease';
+      rw.innerHTML=`<span style="font-size:48px;display:block;margin-bottom:12px">🤔</span>
+        <div style="font-size:20px;font-weight:700;color:var(--mute);margin-bottom:10px">好友分路预测失误……</div>
+        <p style="font-size:13px;color:var(--mute);line-height:1.8">
+          好友预测你是 <strong style="color:${PR.c}">${PR.name}</strong>，
+          但你实际的灵魂分路是 <strong style="color:${MR.c}">${MR.icon} ${MR.name}</strong>！<br>
+          ${hero?'去猜猜好友的本命英雄，还有机会扳回一城！':'继续分享测评，深入探索彼此的峡谷灵魂～'}
+        </p>`;
+      rw.classList.add('on');
+    }
+  }
   if(hero){
     document.getElementById('btn-hero-guess').style.display='inline-flex';
   }
@@ -1279,6 +1314,7 @@ function confetti(){
 function restart(){
   myRes=null;myPred=null;myHero=null;shareUrl='';
   sc={J:0,M:0,C:0,G:0,R:0};qHistory=[];
+  document.getElementById('lncmp').classList.remove('on');
   document.getElementById('fcmp').classList.remove('on');
   document.getElementById('rwp').classList.remove('on');
   document.getElementById('btn-hero-guess').style.display='none';
