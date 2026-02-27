@@ -833,6 +833,10 @@ function checkFriendLane(){
         <button class="pbt" onclick="guessLane('${r.id}')">${r.icon} ${r.name}</button>`).join('')
     }</div>`;
   lg.classList.add('on');
+  // 如果好友设置了本命英雄，立即显示猜英雄按钮
+  if(hero){
+    document.getElementById('btn-hero-guess').style.display='inline-flex';
+  }
 }
 
 function guessLane(guessedId){
