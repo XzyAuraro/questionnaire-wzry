@@ -413,7 +413,36 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
   </div>
 </section>
 
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
+/* ═══════════════════════════════════
+   FIREBASE CONFIG
+   在 Firebase 控制台创建项目后，将下方占位符替换为你的配置
+═══════════════════════════════════ */
+const FIREBASE_CONFIG={
+  apiKey:"YOUR_API_KEY",
+  authDomain:"YOUR_PROJECT_ID.firebaseapp.com",
+  databaseURL:"https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+  projectId:"YOUR_PROJECT_ID",
+  storageBucket:"YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId:"YOUR_SENDER_ID",
+  appId:"YOUR_APP_ID"
+};
+let fbDb=null;
+function initFirebase(){
+  if(FIREBASE_CONFIG.apiKey==='YOUR_API_KEY'){
+    console.warn('Firebase 尚未配置，投票数据仅保存在本地');
+    return;
+  }
+  firebase.initializeApp(FIREBASE_CONFIG);
+  fbDb=firebase.database();
+  // 实时监听 votes 节点，任何用户投票后榜单自动刷新
+  fbDb.ref('votes').on('value',snap=>{
+    renderVoteResultsFromData(snap.val()||{});
+  });
+}
+
 /* ═══════════════════════════════════
    DATA
 ═══════════════════════════════════ */
@@ -1016,16 +1045,8 @@ function generateShareImg(){
 /* ═══════════════════════════════════
    VOTING (#10)
 ═══════════════════════════════════ */
-const VKEY='wzry_votes_v1';
-const VCKEY='wzry_voted_v1';
+const VCKEY='wzry_voted_v1'; // 仅在本地浏览器记录是否已投票
 
-function getVotes(){
-  // Merge seed data + user-contributed delta
-  const delta=JSON.parse(localStorage.getItem(VKEY)||'{}');
-  const votes={...VSEED};
-  Object.entries(delta).forEach(([h,v])=>{votes[h]=(votes[h]||0)+v;});
-  return votes;
-}
 
 function initVoting(){
   vSelected=[];
@@ -1038,7 +1059,7 @@ function initVoting(){
     renderVGrid();
     updateVSelInfo();
   }
-  renderVoteResults();
+  // 实时榜单由 Firebase onValue 监听器自动驱动
 }
 
 function renderVGrid(){
@@ -1110,19 +1131,26 @@ function updateVSelInfo(){
 }
 
 function submitVote(){
-  if(vSelected.length===0){
-    alert('请至少选择 1 位英雄');return;
+  if(vSelected.length===0){alert('请至少选择 1 位英雄');return;}
+  if(!fbDb){
+    // Firebase 未配置时降级本地
+    localStorage.setItem(VCKEY,JSON.stringify(vSelected));
+    showVotedState(vSelected);
+    setTimeout(()=>switchVTab('rank'),600);
+    return;
   }
-  // Save delta to localStorage
-  const delta=JSON.parse(localStorage.getItem(VKEY)||'{}');
-  vSelected.forEach(h=>{delta[h]=(delta[h]||0)+1;});
-  localStorage.setItem(VKEY,JSON.stringify(delta));
-  localStorage.setItem(VCKEY,JSON.stringify(vSelected));
-
-  showVotedState(vSelected);
-  renderVoteResults();
-  // Auto-switch to rank tab
-  setTimeout(()=>switchVTab('rank'),600);
+  const btn=document.querySelector('#vp-vote .bg');
+  if(btn){btn.disabled=true;btn.textContent='提交中……';}
+  const updates={};
+  vSelected.forEach(h=>{updates[h]=firebase.database.ServerValue.increment(1);});
+  fbDb.ref('votes').update(updates).then(()=>{
+    localStorage.setItem(VCKEY,JSON.stringify(vSelected));
+    showVotedState(vSelected);
+    setTimeout(()=>switchVTab('rank'),600);
+  }).catch(err=>{
+    alert('投票提交失败，请检查网络：'+err.message);
+    if(btn){btn.disabled=false;btn.textContent='🗳️  确认投票';}
+  });
 }
 
 function showVotedState(voted){
@@ -1132,12 +1160,11 @@ function showVotedState(voted){
 }
 
 function resetVote(){
-  // Remove user's delta contribution
   const voted=JSON.parse(localStorage.getItem(VCKEY)||'null');
-  if(voted){
-    const delta=JSON.parse(localStorage.getItem(VKEY)||'{}');
-    voted.forEach(h=>{if(delta[h])delta[h]=Math.max(0,delta[h]-1);});
-    localStorage.setItem(VKEY,JSON.stringify(delta));
+  if(voted&&fbDb){
+    const updates={};
+    voted.forEach(h=>{updates[h]=firebase.database.ServerValue.increment(-1);});
+    fbDb.ref('votes').update(updates);
   }
   localStorage.removeItem(VCKEY);
   vSelected=[];
@@ -1148,26 +1175,29 @@ function resetVote(){
   updateVSelInfo();
   document.getElementById('vsrch').value='';
   document.getElementById('vadd-row').style.display='none';
-  renderVoteResults();
 }
 
-function renderVoteResults(){
-  const votes=getVotes();
+function renderVoteResultsFromData(data){
   const voted=JSON.parse(localStorage.getItem(VCKEY)||'null')||[];
-  const sorted=Object.entries(votes).sort((a,b)=>b[1]-a[1]);
+  const sorted=Object.entries(data).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
   const top=sorted.slice(0,20);
   const maxV=top[0]?top[0][1]:1;
   const total=sorted.reduce((s,[,v])=>s+v,0);
-
-  document.getElementById('vtotal-info').textContent=`累计 ${total.toLocaleString()} 票`;
-
-  document.getElementById('vbar-list').innerHTML=top.map(([h,v],i)=>{
+  const el=document.getElementById('vtotal-info');
+  if(el)el.textContent=`累计 ${total.toLocaleString()} 票（实时汇总）`;
+  const list=document.getElementById('vbar-list');
+  if(!list)return;
+  if(top.length===0){
+    list.innerHTML='<div style="text-align:center;color:var(--mute);padding:20px 0;font-size:13px">暂无投票数据，快来第一个投票吧！</div>';
+    return;
+  }
+  list.innerHTML=top.map(([h,v],i)=>{
     const pct=Math.round(v/maxV*100);
     const isVoted=voted.includes(h);
     const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
     return `<div class="vbar-row">
       <span class="vbar-rank">${medal||i+1}</span>
-      <span class="vbar-name${isVoted?' voted':''}">${h}${isVoted?' ✓':''}</span>
+      <span class="vbar-name${isVoted?' voted':''}"> ${h}${isVoted?' ✓':''}</span>
       <div class="vbar-track"><div class="vbar-fill${isVoted?' voted':''}" style="width:${pct}%"></div></div>
       <span class="vbar-cnt">${v.toLocaleString()}</span>
     </div>`;
@@ -1179,7 +1209,6 @@ function switchVTab(tab){
   document.getElementById('vtab-rank').classList.toggle('on',tab==='rank');
   document.getElementById('vp-vote').classList.toggle('on',tab==='vote');
   document.getElementById('vp-rank').classList.toggle('on',tab==='rank');
-  if(tab==='rank')renderVoteResults();
 }
 
 /* ═══════════════════════════════════
@@ -1226,6 +1255,7 @@ function restart(){
 ═══════════════════════════════════ */
 document.addEventListener('DOMContentLoaded',()=>{
   buildRoles();
+  initFirebase();
   const{ref,pred,hero}=getParams();
   if(ref&&pred&&ROLES[ref]&&ROLES[pred]){
     const SH=ROLES[ref],PR=ROLES[pred];
