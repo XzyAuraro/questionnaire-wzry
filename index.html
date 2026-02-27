@@ -6,7 +6,7 @@
 <title>峡谷人格测评 · 王者荣耀</title>
 <!-- OG / Social sharing meta -->
 <meta property="og:title" content="峡谷人格测评 · 王者荣耀">
-<meta property="og:description" content="二十道问题，揭示你在峡谷中的真实人格投影。发现你的分路归属、英雄画像与隐藏特质！">
+<meta property="og:description" content="从二十道题库随机抽取八道，揭示你在峡谷中的真实人格投影。发现你的分路归属！">
 <meta property="og:type" content="website">
 <meta property="og:url" content="http://wzry.xuziyu.my/">
 <meta name="twitter:card" content="summary_large_image">
@@ -206,9 +206,9 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
   <div class="hemb">⚔️</div>
   <div class="hkic">王者荣耀 · 峡谷人格研究所</div>
   <h1 class="htit">你的峡谷<br>灵魂是谁？</h1>
-  <p class="hsub" id="hsub">二十道问题，揭示你在峡谷中的真实人格投影<br>发现你的分路归属、英雄画像与隐藏特质</p>
+  <p class="hsub" id="hsub">从二十道题库随机抽取八道，揭示你在峡谷中的真实人格投影<br>发现你的分路归属、英雄画像与隐藏特质</p>
   <div class="hsts">
-    <div><div class="snum">20</div><div class="slbl">道问题</div></div>
+    <div><div class="snum">8</div><div class="slbl">道随机题</div></div>
     <div><div class="snum">5</div><div class="slbl">条分路</div></div>
     <div><div class="snum">100+</div><div class="slbl">位英雄匹配</div></div>
   </div>
@@ -252,7 +252,7 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
     </div>
     <div class="qpr">
       <div class="qpt"><div class="qpf" id="qpf"></div></div>
-      <span class="qptx" id="qptx">0 / 20</span>
+      <span class="qptx" id="qptx">0 / 8</span>
     </div>
     <div id="qw"></div>
   </div>
@@ -582,6 +582,8 @@ const W={
 let curQ=0,sc={J:0,M:0,C:0,G:0,R:0};
 let myRes=null,myPred=null,myHero=null,shareUrl='';
 let qHistory=[]; // [{qid, k, w}] for back button
+let activeQS=[]; // 每次随机抽取的题目
+const QUIZ_SIZE=8; // 每次从20题中抽取的数量
 let vSelected=[]; // currently selected heroes for voting
 
 /* ═══════════════════════════════════
@@ -632,14 +634,20 @@ function buildRoles(){
 /* ═══════════════════════════════════
    QUIZ
 ═══════════════════════════════════ */
-function initQ(){curQ=0;sc={J:0,M:0,C:0,G:0,R:0};qHistory=[];renderQ();}
+function initQ(){
+  curQ=0;sc={J:0,M:0,C:0,G:0,R:0};qHistory=[];
+  // 随机打乱QS并抽取QUIZ_SIZE道题
+  const shuffled=[...QS].sort(()=>Math.random()-.5);
+  activeQS=shuffled.slice(0,QUIZ_SIZE);
+  renderQ();
+}
 function renderQ(){
-  const q=QS[curQ],pct=Math.round(curQ/QS.length*100);
+  const q=activeQS[curQ],pct=Math.round(curQ/activeQS.length*100);
   document.getElementById('qpf').style.width=pct+'%';
-  document.getElementById('qptx').textContent=`${curQ} / ${QS.length}`;
+  document.getElementById('qptx').textContent=`${curQ} / ${activeQS.length}`;
   document.getElementById('qw').innerHTML=`
     <div class="qcd">
-      <div class="qnum">问题 ${curQ+1} / ${QS.length}</div>
+      <div class="qnum">问题 ${curQ+1} / ${activeQS.length}</div>
       <div class="qtxt">${q.tx}</div>
       <div class="qops">${q.ops.map(o=>`
         <button class="qop" onclick="pick('${q.id}','${o.k}')">
@@ -658,13 +666,13 @@ function pick(qid,k){
   cd.style.opacity='0';cd.style.transform='translateX(-24px)';
   setTimeout(()=>{
     curQ++;
-    if(curQ<QS.length){
+    if(curQ<activeQS.length){
       renderQ();
-      document.getElementById('qpf').style.width=Math.round(curQ/QS.length*100)+'%';
-      document.getElementById('qptx').textContent=`${curQ} / ${QS.length}`;
+      document.getElementById('qpf').style.width=Math.round(curQ/activeQS.length*100)+'%';
+      document.getElementById('qptx').textContent=`${curQ} / ${activeQS.length}`;
     }else{
       document.getElementById('qpf').style.width='100%';
-      document.getElementById('qptx').textContent=`${QS.length} / ${QS.length}`;
+      document.getElementById('qptx').textContent=`${activeQS.length} / ${activeQS.length}`;
       go('s4');setTimeout(showRes,1800);
     }
   },300);
@@ -681,8 +689,8 @@ function goBack(){
   }
   setTimeout(()=>{
     renderQ();
-    document.getElementById('qpf').style.width=Math.round(curQ/QS.length*100)+'%';
-    document.getElementById('qptx').textContent=`${curQ} / ${QS.length}`;
+    document.getElementById('qpf').style.width=Math.round(curQ/activeQS.length*100)+'%';
+    document.getElementById('qptx').textContent=`${curQ} / ${activeQS.length}`;
   },220);
 }
 
