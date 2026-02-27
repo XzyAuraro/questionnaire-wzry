@@ -306,8 +306,12 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
     <div id="hcrs" class="hcrs"></div>
     <div class="hccd" id="hc-card">
       <div class="pbl">🎯 从下方选择你认为的答案</div>
-      <input class="hsrch" id="hg-srch" placeholder="搜索英雄名……" oninput="filterH('hg-srch','hg-grid')">
+      <input class="hsrch" id="hg-srch" placeholder="搜索英雄名……" oninput="filterHG()">
       <div class="hgrid" id="hg-grid"></div>
+      <div id="hg-add-row" style="display:none;margin-top:12px;text-align:center;padding:10px 14px;background:rgba(255,255,255,.04);border-radius:8px;font-size:13px">
+        没有找到？以 "<strong id="hg-add-name" style="color:var(--gold)"></strong>" 作为猜测？&nbsp;
+        <button class="bg" style="padding:5px 16px;font-size:12px;margin-top:6px" onclick="guessHeroCustom()">确认猜测</button>
+      </div>
     </div>
     <div style="text-align:center;margin-top:16px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
       <button class="bo" onclick="go('s7');initSh()">跳过 → 分享我的结果</button>
@@ -909,6 +913,26 @@ function filterH(srcId,gridId){
     b.style.display=b.dataset.h.includes(term)?'':'none';
   });
 }
+function filterHG(){
+  const term=document.getElementById('hg-srch').value.trim();
+  let anyVis=false;
+  document.querySelectorAll('#hg-grid .hbt').forEach(b=>{
+    const show=!term||b.dataset.h.includes(term);
+    b.style.display=show?'':'none';
+    if(show)anyVis=true;
+  });
+  const addRow=document.getElementById('hg-add-row');
+  if(term&&!anyVis){
+    document.getElementById('hg-add-name').textContent=term;
+    addRow.style.display='block';
+  }else{
+    addRow.style.display='none';
+  }
+}
+function guessHeroCustom(){
+  const name=document.getElementById('hg-srch').value.trim();
+  if(name)guessHero(name);
+}
 
 /* ═══════════════════════════════════
    HERO GUESS (friend mode – s6)
@@ -1335,7 +1359,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(ref&&pred&&ROLES[ref]&&ROLES[pred]){
     const SH=ROLES[ref],PR=ROLES[pred];
     document.getElementById('hsub').innerHTML=`
-      你的好友（<strong style="color:${SH.c}">${SH.icon} ${SH.name}位</strong> 玩家）<br>
+      你的好友<br>
       预测你是 <strong style="color:${PR.c}">${PR.icon} ${PR.name}</strong> 玩家<br>
       ${hero?'还设置了一个<strong style="color:var(--gold)">本命英雄谜题</strong>等你来猜！<br>':''}
       完成测评，揭晓答案！`;
