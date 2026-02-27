@@ -413,8 +413,6 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
   </div>
 </section>
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
 /* ═══════════════════════════════════
    FIREBASE CONFIG
@@ -432,14 +430,30 @@ const FIREBASE_CONFIG={
 let fbDb=null;
 function initFirebase(){
   if(FIREBASE_CONFIG.apiKey==='YOUR_API_KEY'){
-    console.warn('Firebase 尚未配置，投票数据仅保存在本地');
+    console.warn('Firebase 尚未配置');
     return;
   }
-  firebase.initializeApp(FIREBASE_CONFIG);
-  fbDb=firebase.database();
-  // 实时监听 votes 节点，任何用户投票后榜单自动刷新
-  fbDb.ref('votes').on('value',snap=>{
-    renderVoteResultsFromData(snap.val()||{});
+  // 动态异步加载 SDK，不阻塞页面
+  const CDN='https://cdn.jsdelivr.net/npm/firebase@9.23.0/';
+  function loadScript(src,cb){
+    const s=document.createElement('script');
+    s.src=src;
+    s.onload=cb;
+    s.onerror=()=>console.warn('Firebase SDK 加载失败:',src);
+    document.head.appendChild(s);
+  }
+  loadScript(CDN+'firebase-app-compat.js',()=>{
+    loadScript(CDN+'firebase-database-compat.js',()=>{
+      try{
+        firebase.initializeApp(FIREBASE_CONFIG);
+        fbDb=firebase.database();
+        fbDb.ref('votes').on('value',snap=>{
+          renderVoteResultsFromData(snap.val()||{});
+        });
+      }catch(e){
+        console.warn('Firebase 初始化失败:',e);
+      }
+    });
   });
 }
 
