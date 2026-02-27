@@ -1159,6 +1159,7 @@ function submitVote(){
   vSelected.forEach(h=>{updates[h]=firebase.database.ServerValue.increment(1);});
   fbDb.ref('votes').update(updates).then(()=>{
     localStorage.setItem(VCKEY,JSON.stringify(vSelected));
+    localStorage.setItem('wzry_voted_fb','1'); // 标记本次投票已写入 Firebase
     showVotedState(vSelected);
     setTimeout(()=>switchVTab('rank'),600);
   }).catch(err=>{
@@ -1175,12 +1176,15 @@ function showVotedState(voted){
 
 function resetVote(){
   const voted=JSON.parse(localStorage.getItem(VCKEY)||'null');
-  if(voted&&fbDb){
+  const inFb=localStorage.getItem('wzry_voted_fb');
+  if(voted&&fbDb&&inFb){
+    // 只有本次投票确认写入了 Firebase 才执行减票，防止产生负数
     const updates={};
     voted.forEach(h=>{updates[h]=firebase.database.ServerValue.increment(-1);});
     fbDb.ref('votes').update(updates);
   }
   localStorage.removeItem(VCKEY);
+  localStorage.removeItem('wzry_voted_fb');
   vSelected=[];
   customHeroSet=new Set();
   document.getElementById('v-voted-banner').style.display='none';
