@@ -338,8 +338,12 @@ body{background:var(--dark);color:var(--txt);font-family:'Noto Serif SC','PingFa
       </p>
       <div class="pblk" style="margin-bottom:22px">
         <div class="pbl">🔥 我的本命英雄是…（让好友来猜！可选）</div>
-        <input class="hsrch" id="hp-srch" placeholder="搜索英雄名……" oninput="filterH('hp-srch','hp-grid')">
+        <input class="hsrch" id="hp-srch" placeholder="搜索英雄名……" oninput="filterHP()">
         <div class="hgrid" id="hp-grid"></div>
+        <div id="hp-add-row" style="display:none;margin-top:12px;text-align:center;padding:10px 14px;background:rgba(255,255,255,.04);border-radius:8px;font-size:13px">
+          没有找到？以 "<strong id="hp-add-name" style="color:var(--gold)"></strong>" 作为本命英雄？&nbsp;
+          <button class="bg" style="padding:5px 16px;font-size:12px;margin-top:6px" onclick="setHeroCustom()">确认设置</button>
+        </div>
         <div class="hsel-row" id="hp-sel">
           已选本命：<strong id="hp-sel-name" style="color:var(--gold)"></strong> ✓
           &nbsp;<button class="bo" style="padding:3px 10px;font-size:11px" onclick="clearHero()">更改</button>
@@ -912,6 +916,27 @@ function filterH(srcId,gridId){
   document.querySelectorAll(`#${gridId} .hbt`).forEach(b=>{
     b.style.display=b.dataset.h.includes(term)?'':'none';
   });
+}
+function filterHP(){
+  const term=document.getElementById('hp-srch').value.trim();
+  let anyVis=false;
+  document.querySelectorAll('#hp-grid .hbt').forEach(b=>{
+    const show=!term||b.dataset.h.includes(term);
+    b.style.display=show?'':'none';
+    if(show)anyVis=true;
+  });
+  const addRow=document.getElementById('hp-add-row');
+  if(term&&!anyVis){
+    document.getElementById('hp-add-name').textContent=term;
+    addRow.style.display='block';
+  }else{
+    addRow.style.display='none';
+  }
+}
+function setHeroCustom(){
+  const name=document.getElementById('hp-srch').value.trim();
+  if(name)setHero(name);
+  document.getElementById('hp-add-row').style.display='none';
 }
 function filterHG(){
   const term=document.getElementById('hg-srch').value.trim();
