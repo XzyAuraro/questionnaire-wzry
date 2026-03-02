@@ -1067,7 +1067,7 @@ let _qrReady=false;
 function _loadQRLib(cb){
   if(_qrReady){cb();return;}
   const s=document.createElement('script');
-  s.src='https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js';
+  s.src='https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js';
   s.onload=()=>{_qrReady=true;cb();};
   s.onerror=()=>cb();
   document.head.appendChild(s);
@@ -1175,27 +1175,31 @@ function generateShareImg(){
   }
 
   _loadQRLib(()=>{
-    if(window.QRCode){
-      window.QRCode.toDataURL('https://wzry.xuziyu.my',{
-        width:100,margin:1,
-        color:{dark:'#D4AF37',light:'#07070F'}
-      },(err,qrUrl)=>{
-        if(!err){
-          const qi=new Image();
-          qi.onload=()=>{
-            cx.fillStyle='rgba(7,7,15,0.9)';
-            cx.fillRect(W-118,H-118,108,108);
-            cx.drawImage(qi,W-114,H-114,100,100);
-            cx.font='10px sans-serif';
-            cx.fillStyle='rgba(212,175,55,0.55)';
-            cx.textAlign='center';
-            cx.fillText('扫码进入',W-64,H-5);
-            _finish();
-          };
-          qi.src=qrUrl;
-        }else{_finish();}
-      });
-    }else{_finish();}
+    try{
+      // qrcode-generator 同步绘制，无需等待图片加载
+      const qr=qrcode(0,'M');
+      qr.addData('https://wzry.xuziyu.my');
+      qr.make();
+      const mc=qr.getModuleCount();
+      const qrSize=100,qrX=W-118,qrY=H-118;
+      const cs=qrSize/mc;
+      // 背景
+      cx.fillStyle='#07070F';
+      cx.fillRect(qrX-4,qrY-4,qrSize+8,qrSize+8);
+      // 二维码格子（金色）
+      cx.fillStyle='#D4AF37';
+      for(let r=0;r<mc;r++){
+        for(let c=0;c<mc;c++){
+          if(qr.isDark(r,c)) cx.fillRect(qrX+c*cs,qrY+r*cs,cs,cs);
+        }
+      }
+      // 标签
+      cx.font='10px sans-serif';
+      cx.fillStyle='rgba(212,175,55,0.55)';
+      cx.textAlign='center';
+      cx.fillText('扫码进入',qrX+qrSize/2,H-5);
+    }catch(e){console.warn('QR绘制失败',e);}
+    _finish();
   });
 }
 
