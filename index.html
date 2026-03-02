@@ -1137,11 +1137,11 @@ function generateShareImg(){
   cv.toBlob(blob=>{
     const url=URL.createObjectURL(blob);
     const a=document.createElement('a');
-    a.download=`峡谷灵魂档案_${P.name}.png`;
+    a.download=`峡谷灵魂档案_${P.name}.jpg`;
     a.href=url;
     a.click();
     setTimeout(()=>URL.revokeObjectURL(url),1000);
-  });
+  },'image/jpeg',0.92);
 }
 
 /* ═══════════════════════════════════
