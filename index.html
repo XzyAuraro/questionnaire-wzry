@@ -1063,6 +1063,40 @@ function cpyLnk(){
 /* ═══════════════════════════════════
    SHARE IMAGE GENERATION (#2)
 ═══════════════════════════════════ */
+let _qrReady=false;
+function _loadQRLib(cb){
+  if(_qrReady){cb();return;}
+  const s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js';
+  s.onload=()=>{_qrReady=true;cb();};
+  s.onerror=()=>cb();
+  document.head.appendChild(s);
+}
+function _showImgOverlay(dataUrl,fileName){
+  const ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;gap:14px';
+  const img=document.createElement('img');
+  img.src=dataUrl;
+  img.style.cssText='max-width:100%;max-height:65vh;border-radius:12px;box-shadow:0 0 32px rgba(0,0,0,.8)';
+  const tip=document.createElement('p');
+  tip.innerHTML='📱 <strong style="color:#fff">长按图片</strong>保存到相册&emsp;|&emsp;桌面端右键另存为';
+  tip.style.cssText='color:rgba(255,255,255,.6);font-size:13px;text-align:center;margin:0';
+  const row=document.createElement('div');
+  row.style.cssText='display:flex;gap:12px';
+  const dlBtn=document.createElement('a');
+  dlBtn.textContent='⬇ 下载图片';
+  dlBtn.download=fileName;
+  dlBtn.href=dataUrl;
+  dlBtn.style.cssText='padding:8px 24px;border-radius:20px;background:rgba(212,175,55,.15);border:1px solid rgba(212,175,55,.5);color:#D4AF37;font-size:13px;text-decoration:none';
+  const closeBtn=document.createElement('button');
+  closeBtn.textContent='关闭';
+  closeBtn.style.cssText='padding:8px 24px;border-radius:20px;border:1px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.65);font-size:13px;cursor:pointer';
+  closeBtn.onclick=()=>document.body.removeChild(ov);
+  ov.onclick=e=>{if(e.target===ov)document.body.removeChild(ov);};
+  row.append(dlBtn,closeBtn);
+  ov.append(img,tip,row);
+  document.body.appendChild(ov);
+}
 function generateShareImg(){
   if(!myRes){alert('请先完成测评再保存分享图');return;}
   const P=ROLES[myRes];
@@ -1094,7 +1128,7 @@ function generateShareImg(){
   cx.fillStyle=tg;
   cx.fillRect(0,H-3,W,3);
 
-  // Top label: site name
+  // Top label
   cx.font='12px sans-serif';
   cx.fillStyle='rgba(212,175,55,0.5)';
   cx.textAlign='center';
@@ -1129,19 +1163,40 @@ function generateShareImg(){
   cx.fillStyle=P.c+'aa';
   cx.fillText('代表英雄：' + P.heroes.join(' · '), W/2, 376);
 
-  // Bottom URL
+  // Bottom URL（左对齐，为右侧二维码留空）
   cx.font='12px sans-serif';
   cx.fillStyle='rgba(212,175,55,0.4)';
-  cx.fillText('wzry.xuziyu.my', W/2, H-20);
+  cx.textAlign='left';
+  cx.fillText('wzry.xuziyu.my', 18, H-14);
 
-  cv.toBlob(blob=>{
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.download=`峡谷灵魂档案_${P.name}.jpg`;
-    a.href=url;
-    a.click();
-    setTimeout(()=>URL.revokeObjectURL(url),1000);
-  },'image/jpeg',0.92);
+  function _finish(){
+    const dataUrl=cv.toDataURL('image/jpeg',0.92);
+    _showImgOverlay(dataUrl,`峡谷灵魂档案_${P.name}.jpg`);
+  }
+
+  _loadQRLib(()=>{
+    if(window.QRCode){
+      window.QRCode.toDataURL('https://wzry.xuziyu.my',{
+        width:100,margin:1,
+        color:{dark:'#D4AF37',light:'#07070F'}
+      },(err,qrUrl)=>{
+        if(!err){
+          const qi=new Image();
+          qi.onload=()=>{
+            cx.fillStyle='rgba(7,7,15,0.9)';
+            cx.fillRect(W-118,H-118,108,108);
+            cx.drawImage(qi,W-114,H-114,100,100);
+            cx.font='10px sans-serif';
+            cx.fillStyle='rgba(212,175,55,0.55)';
+            cx.textAlign='center';
+            cx.fillText('扫码进入',W-64,H-5);
+            _finish();
+          };
+          qi.src=qrUrl;
+        }else{_finish();}
+      });
+    }else{_finish();}
+  });
 }
 
 /* ═══════════════════════════════════
